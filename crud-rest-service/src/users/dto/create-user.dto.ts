@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { IsString, IsNumber, IsBoolean } from 'class-validator';
+import { IsString, IsNumber, IsBoolean, Matches } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -10,6 +10,10 @@ export class CreateUserDto {
   readonly email: string;
 
   @IsString()
+  @Matches(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/, {
+    message:
+      'Password must contain at least 1 number and 1 character in a string',
+  })
   readonly password: string;
 
   @IsNumber()
