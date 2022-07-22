@@ -22,9 +22,18 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body(new CreateUserValidatorPipe()) createUserDto: CreateUserDto) {
-    console.log(createUserDto);
-    return this.usersService.create(createUserDto);
+  create(
+    @Body(new CreateUserValidatorPipe()) createUserDto: CreateUserDto,
+    @Res() response,
+  ) {
+    const user = this.usersService.findByLogin(createUserDto.login);
+    if (user) {
+      return response
+        .status(HttpStatus.BAD_REQUEST)
+        .send(`User ${createUserDto.login} already exists in the database`);
+    }
+    const newUser = this.usersService.create(createUserDto);
+    return response.status(HttpStatus.OK).send(newUser);
   }
 
   @Get('/limitusers')
@@ -64,6 +73,18 @@ export class UsersController {
     if (!user) {
       return response.status(HttpStatus.NOT_FOUND).send('Not Found');
     }
+    if (
+      updateUserDto.hasOwnProperty('login') &&
+      updateUserDto.login !== user.login
+    ) {
+      const existUser = this.usersService.findByLogin(updateUserDto.login);
+      if (existUser) {
+        return response
+          .status(HttpStatus.BAD_REQUEST)
+          .send(`User ${updateUserDto.login} already exists in the database`);
+      }
+    }
+
     const updUser = this.usersService.update(id, updateUserDto);
     return response.status(HttpStatus.OK).send(updUser);
   }

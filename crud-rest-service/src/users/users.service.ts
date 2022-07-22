@@ -29,6 +29,10 @@ export class UsersService {
     return this.users.find((user) => user.id === id && !user.isDeleted);
   }
 
+  findByLogin(login: string) {
+    return this.users.find((user) => user.login === login && !user.isDeleted);
+  }
+
   getAutoSuggestUsers(loginSubstringUserDto: LoginSubstringUserDto) {
     const arrUsers = this.users.filter((user) =>
       user.login.includes(loginSubstringUserDto.loginSubstring),
