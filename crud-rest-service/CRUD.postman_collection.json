@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "d3d7930f-e444-49c4-a17e-e7eec26e9379",
+		"name": "CRUD REST service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18986383"
+	},
+	"item": [
+		{
+			"name": "GET all",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"login\": \"Marcos\",\r\n  \"email\": \"mail@gmail.com\",\r\n  \"password\": \"www\",\r\n  \"age\": 23,\r\n  \"isDeleted\": false\r\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/v1/users?limit=0&offset=0",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"users"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "0"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET by ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"login\": \"Marcos\",\r\n  \"email\": \"mail@gmail.com\",\r\n  \"password\": \"www\",\r\n  \"age\": 23,\r\n  \"isDeleted\": false\r\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/v1/users/9b6b14b3-663c-4b7b-a708-9d98d38cca9f1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"users",
+						"9b6b14b3-663c-4b7b-a708-9d98d38cca9f1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET limitusers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"loginSubstring\": \"John\",\r\n  \"limit\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/users/limitusers",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"users",
+						"limitusers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST user",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"login\": \"John\",\r\n  \"email\": \"john@gmail.com\",\r\n  \"password\": \"www111\",\r\n  \"age\": 26,\r\n  \"isDeleted\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"login\": \"John Doe\",\r\n  \"email\": \"john.doe@gmail.com\",\r\n  \"password\": \"www23\",\r\n  \"age\": 23,\r\n  \"isDeleted\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/users/1e2de5d0-7cad-49ad-9b2a-78ae96b476a4",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"users",
+						"1e2de5d0-7cad-49ad-9b2a-78ae96b476a4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/v1/users/36bdd88c-a5f3-4352-b1db-069e51c24fde",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"users",
+						"36bdd88c-a5f3-4352-b1db-069e51c24fde"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
