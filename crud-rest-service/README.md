@@ -9,6 +9,7 @@ git checkout task-3-1
 or
 git checkout task-3-2
 
+rename file .env.example to .env
 cd crud-rest-service
 npm install
 ```
