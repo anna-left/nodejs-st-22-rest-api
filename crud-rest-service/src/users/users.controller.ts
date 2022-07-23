@@ -9,6 +9,8 @@ import {
   Query,
   Res,
   HttpStatus,
+  BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -28,9 +30,9 @@ export class UsersController {
   ) {
     const user = this.usersService.findByLogin(createUserDto.login);
     if (user) {
-      return response
-        .status(HttpStatus.BAD_REQUEST)
-        .send(`User ${createUserDto.login} already exists in the database`);
+      throw new BadRequestException(
+        `User ${createUserDto.login} already exists in the database`,
+      );
     }
     const newUser = this.usersService.create(createUserDto);
     return response.status(HttpStatus.OK).send(newUser);
@@ -42,9 +44,6 @@ export class UsersController {
     @Res() response,
   ) {
     const users = this.usersService.getAutoSuggestUsers(loginSubstringUserDto);
-    if (!UsersController) {
-      return response.status(HttpStatus.NOT_FOUND).send('Not Found');
-    }
     return response.status(HttpStatus.OK).send(users);
   }
 
@@ -52,7 +51,7 @@ export class UsersController {
   findOne(@Param('id') id: string, @Res() response) {
     const user = this.usersService.findOne(id);
     if (!user) {
-      return response.status(HttpStatus.NOT_FOUND).send('Not Found');
+      throw new NotFoundException("User does'n exist");
     }
     return response.status(HttpStatus.OK).send(user);
   }
@@ -66,7 +65,7 @@ export class UsersController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserDto,
+    @Body(new CreateUserValidatorPipe()) updateUserDto: UpdateUserDto,
     @Res() response,
   ) {
     const user = this.usersService.findOne(id);
@@ -79,9 +78,9 @@ export class UsersController {
     ) {
       const existUser = this.usersService.findByLogin(updateUserDto.login);
       if (existUser) {
-        return response
-          .status(HttpStatus.BAD_REQUEST)
-          .send(`User ${updateUserDto.login} already exists in the database`);
+        throw new BadRequestException(
+          `User ${updateUserDto.login} already exists in the database`,
+        );
       }
     }
 
@@ -93,7 +92,7 @@ export class UsersController {
   remove(@Param('id') id: string, @Res() response) {
     const user = this.usersService.findOne(id);
     if (!user) {
-      return response.status(HttpStatus.NOT_FOUND).send('Not Found');
+      throw new NotFoundException("User does'n exist");
     }
     this.usersService.remove(id);
     if (user.isDeleted) {
@@ -101,6 +100,6 @@ export class UsersController {
         .status(HttpStatus.OK)
         .send('The object was successfully deleted');
     }
-    return response.status(HttpStatus.NOT_FOUND).send('Not Found');
+    throw new BadRequestException('Unsuccessful deletion attempt');
   }
 }
