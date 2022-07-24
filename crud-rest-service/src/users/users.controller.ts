@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   Query,
@@ -11,6 +10,7 @@ import {
   HttpStatus,
   BadRequestException,
   NotFoundException,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -23,24 +23,19 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto, @Res() response) {
+  create(@Body() createUserDto: CreateUserDto) {
     const user = this.usersService.findByLogin(createUserDto.login);
     if (user) {
       throw new BadRequestException(
         `User ${createUserDto.login} already exists in the database`,
       );
     }
-    const newUser = this.usersService.create(createUserDto);
-    return response.status(HttpStatus.OK).send(newUser);
+    return this.usersService.create(createUserDto);
   }
 
   @Get('/limitusers')
-  getAutoSuggestUsers(
-    @Body() loginSubstringUserDto: LoginSubstringUserDto,
-    @Res() response,
-  ) {
-    const users = this.usersService.getAutoSuggestUsers(loginSubstringUserDto);
-    return response.status(HttpStatus.OK).send(users);
+  getAutoSuggestUsers(@Body() loginSubstringUserDto: LoginSubstringUserDto) {
+    return this.usersService.getAutoSuggestUsers(loginSubstringUserDto);
   }
 
   @Get(':id')
@@ -58,7 +53,7 @@ export class UsersController {
     return this.usersService.findAll(limit, offset);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,

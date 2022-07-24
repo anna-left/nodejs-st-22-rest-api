@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d3d7930f-e444-49c4-a17e-e7eec26e9379",
+		"_postman_id": "28278acb-8822-4e78-b41b-765e49896ab8",
 		"name": "CRUD REST service",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "18986383"
@@ -20,7 +20,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"login\": \"Marcos\",\r\n  \"email\": \"mail@gmail.com\",\r\n  \"password\": \"www\",\r\n  \"age\": 23,\r\n  \"isDeleted\": false\r\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "localhost:3000/v1/users?limit=0&offset=0",
@@ -60,10 +60,10 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"login\": \"Marcos\",\r\n  \"email\": \"mail@gmail.com\",\r\n  \"password\": \"www\",\r\n  \"age\": 23,\r\n  \"isDeleted\": false\r\n}"
+					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/v1/users/9b6b14b3-663c-4b7b-a708-9d98d38cca9f1",
+					"raw": "localhost:3000/v1/users/00d247eb-03ad-419c-965d-ba2b3d37b615",
 					"host": [
 						"localhost"
 					],
@@ -71,7 +71,7 @@
 					"path": [
 						"v1",
 						"users",
-						"9b6b14b3-663c-4b7b-a708-9d98d38cca9f1"
+						"00d247eb-03ad-419c-965d-ba2b3d37b615"
 					]
 				}
 			},
@@ -122,11 +122,11 @@
 				"auth": {
 					"type": "noauth"
 				},
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"login\": \"John\",\r\n  \"email\": \"john@gmail.com\",\r\n  \"password\": \"www111\",\r\n  \"age\": 26,\r\n  \"isDeleted\": false\r\n}",
+					"raw": "{\r\n  \"login\": \"John\",\r\n  \"password\": \"www111\",\r\n  \"age\": 26,\r\n  \"isDeleted\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -148,7 +148,7 @@
 			"response": []
 		},
 		{
-			"name": "PATCH",
+			"name": "PUT",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -156,11 +156,11 @@
 				"auth": {
 					"type": "noauth"
 				},
-				"method": "PATCH",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"login\": \"John Doe\",\r\n  \"email\": \"john.doe@gmail.com\",\r\n  \"password\": \"www23\",\r\n  \"age\": 23,\r\n  \"isDeleted\": false\r\n}",
+					"raw": "{\r\n  \"login\": \"John Doe\",\r\n  \"password\": \"www123\",\r\n  \"age\": 23,\r\n  \"isDeleted\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -168,7 +168,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/v1/users/1e2de5d0-7cad-49ad-9b2a-78ae96b476a4",
+					"raw": "localhost:3000/v1/users/68622047-b59f-44cc-a105-4041564587a0",
 					"host": [
 						"localhost"
 					],
@@ -176,7 +176,7 @@
 					"path": [
 						"v1",
 						"users",
-						"1e2de5d0-7cad-49ad-9b2a-78ae96b476a4"
+						"68622047-b59f-44cc-a105-4041564587a0"
 					]
 				}
 			},

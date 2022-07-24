@@ -16,10 +16,6 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  readonly email: string;
-
-  @IsString()
-  @IsNotEmpty()
   @Matches(passwordPattern, {
     message:
       'The password must consist of letters and numbers (least 1 number and 1 character)',
