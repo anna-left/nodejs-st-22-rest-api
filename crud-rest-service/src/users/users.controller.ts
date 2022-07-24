@@ -17,17 +17,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { LoginSubstringUserDto } from './dto/getLoginSubstring-user.dto';
-import { CreateUserValidatorPipe } from './validation.pipe';
 
 @Controller('v1/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(
-    @Body(new CreateUserValidatorPipe()) createUserDto: CreateUserDto,
-    @Res() response,
-  ) {
+  create(@Body() createUserDto: CreateUserDto, @Res() response) {
     const user = this.usersService.findByLogin(createUserDto.login);
     if (user) {
       throw new BadRequestException(
@@ -65,7 +61,7 @@ export class UsersController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body(new CreateUserValidatorPipe()) updateUserDto: UpdateUserDto,
+    @Body() updateUserDto: UpdateUserDto,
     @Res() response,
   ) {
     const user = this.usersService.findOne(id);
