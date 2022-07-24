@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { LoginSubstringUserDto } from './dto/getLoginSubstring-user.dto';
+import { getFunctionCompare } from './utils/sort';
 
 @Injectable()
 export class UsersService {
@@ -34,10 +35,16 @@ export class UsersService {
   }
 
   getAutoSuggestUsers(loginSubstringUserDto: LoginSubstringUserDto) {
-    const arrUsers = this.users.filter((user) =>
-      user.login.includes(loginSubstringUserDto.loginSubstring),
-    );
-    return arrUsers.sort(this.compare).slice(0, loginSubstringUserDto.limit);
+    return this.users
+      .filter(
+        (user) =>
+          !user.isDeleted &&
+          user.login
+            .toLowerCase()
+            .includes(loginSubstringUserDto.loginSubstring.toLowerCase()),
+      )
+      .sort(getFunctionCompare('login'))
+      .slice(0, loginSubstringUserDto.limit);
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
