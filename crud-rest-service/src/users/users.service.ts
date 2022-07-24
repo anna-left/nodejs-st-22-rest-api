@@ -57,16 +57,6 @@ export class UsersService {
     return this.users[i];
   }
 
-  compare(user1: User, user2: User) {
-    if (user1.login < user2.login) {
-      return -1;
-    }
-    if (user1.login > user2.login) {
-      return 1;
-    }
-    return 0;
-  }
-
   remove(id: string) {
     const i = this.users.findIndex((user) => user.id === id && !user.isDeleted);
     if (i === -1) return null;
