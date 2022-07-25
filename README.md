@@ -1,17 +1,16 @@
-# Task-3-1, Task-3-2
+# Task-4-1, Task-4-2
 
 
 ## Installation
 ```
 git clone https://github.com/anna-left/nodejs-st-22-node.git
 
-git checkout task-3-1
+git checkout task-4-1
 or
-git checkout task-3-2
+git checkout task-4-2
 
-rename file .env.example to .env
-cd crud-rest-service
 npm install
+rename .env.example file to .env
 ```
 
 ## Running the app
