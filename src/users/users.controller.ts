@@ -14,25 +14,26 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { User } from './users.model';
 // import { UpdateUserDto } from './dto/update-user.dto';
 // import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 // import { LoginSubstringUserDto } from './dto/getLoginSubstring-user.dto';
 
+@ApiTags('Users')
 @Controller('v1/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // @ApiOperation({ summary: 'Создание пользователя' })
-  // @ApiResponse({ status: 200, type: User })
+  @ApiOperation({ summary: 'User creation' })
+  @ApiResponse({ status: 200, type: User })
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
 
-  // @ApiOperation({ summary: 'Получить всех пользователей' })
-  // @ApiResponse({ status: 200, type: [User] })
-  // @Roles('ADMIN')
-  // @UseGuards(RolesGuard)
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiResponse({ status: 200, type: [User] })
   @Get()
   findAll() {
     return this.usersService.findAll();

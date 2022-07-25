@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 // import { getFunctionCompare } from './utils/sort';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './users.model';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +16,8 @@ export class UsersService {
     return await this.userRepository.create(createUserDto);
   }
 
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiResponse({ status: 200, type: [User] })
   async findAll() {
     const users = await this.userRepository.findAll();
     return users;

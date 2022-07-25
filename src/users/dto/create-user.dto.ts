@@ -1,7 +1,8 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsString,
   IsNumber,
-  IsBoolean,
+  // IsBoolean,
   IsNotEmpty,
   Matches,
   Max,
@@ -10,10 +11,12 @@ import {
 
 const passwordPattern = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
 export class CreateUserDto {
+  @ApiProperty({ example: 'John', description: 'user login' })
   @IsString()
   @IsNotEmpty()
   readonly login: string;
 
+  @ApiProperty({ example: 'secret123', description: 'password' })
   @IsString()
   @IsNotEmpty()
   @Matches(passwordPattern, {
@@ -22,13 +25,14 @@ export class CreateUserDto {
   })
   readonly password: string;
 
+  @ApiProperty({ example: 23, description: 'user age' })
   @IsNumber()
   @Min(4)
   @Max(130)
   @IsNotEmpty()
   readonly age: number;
 
-  @IsBoolean()
-  @IsNotEmpty()
-  readonly isDeleted: boolean;
+  // @IsBoolean()
+  // @IsNotEmpty()
+  // readonly isDeleted: boolean;
 }
