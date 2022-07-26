@@ -19,7 +19,14 @@ export class User extends Model<User, UserCreationAttrs> {
   id: number;
 
   @ApiProperty({ example: 'John', description: 'user login' })
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
+  @Column({
+    type: DataType.STRING,
+    unique: true,
+    allowNull: false,
+    get() {
+      return this.getDataValue('login');
+    },
+  })
   login: string;
 
   @ApiProperty({ example: 'secret123', description: 'password' })
@@ -30,7 +37,13 @@ export class User extends Model<User, UserCreationAttrs> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   age: number;
 
-  @ApiProperty({ example: false, description: 'User deleted' })
-  @Column({ type: DataType.BOOLEAN, defaultValue: false })
+  @ApiProperty({ example: false, description: 'user deleted' })
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+    get() {
+      return this.getDataValue('isDeleted');
+    },
+  })
   isDeleted: boolean;
 }

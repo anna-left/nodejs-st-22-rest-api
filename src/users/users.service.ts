@@ -1,78 +1,61 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-// import { UpdateUserDto } from './dto/update-user.dto';
-// import { LoginSubstringUserDto } from './dto/getLoginSubstring-user.dto';
-// import { getFunctionCompare } from './utils/sort';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './users.model';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User) private userRepository: typeof User) {}
-  // private users: User[] = [];
 
+  @ApiOperation({ summary: 'User creation' })
+  @ApiResponse({ status: 200, type: User })
   async createUser(createUserDto: CreateUserDto) {
     return await this.userRepository.create(createUserDto);
   }
 
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [User] })
-  async findAll() {
-    const users = await this.userRepository.findAll();
-    return users;
+  async findAll(params: { loginSubstring: string; limit: number }) {
+    const arrUsers = await this.userRepository.findAll({
+      where: {
+        isDeleted: false,
+        login: {
+          [Op.like]: `%${params.loginSubstring}%`,
+        },
+      },
+      order: ['login'],
+    });
+    return arrUsers.slice(0, params.limit);
   }
-  // create(createUserDto: CreateUserDto) {
-  //   this.users.push({
-  //     ...createUserDto,
-  //     id: uuidv4(),
-  //   });
-  //   return this.users.at(-1);
-  // }
 
-  // findAll(limit = 0, offset = 0) {
-  //   const arrUsers = this.users.filter((user) => !user.isDeleted);
-  //   if (!limit) {
-  //     return arrUsers;
-  //   }
-  //   return arrUsers.slice((offset - 1) * limit, offset * limit);
-  // }
+  @ApiOperation({ summary: 'Get one user by id' })
+  @ApiResponse({ status: 200, type: [User] })
+  async findOne(id: string): Promise<User> {
+    return await this.userRepository.findOne({
+      where: {
+        id: Number(id),
+      },
+    });
+  }
 
-  // findOne(id: string) {
-  //   return this.users.find((user) => user.id === id && !user.isDeleted);
-  // }
+  @ApiOperation({ summary: 'Update user' })
+  @ApiResponse({ status: 200, type: User })
+  async update(user: User, updateUserDto: UpdateUserDto) {
+    return await user.update(updateUserDto);
+  }
 
-  // findByLogin(login: string) {
-  //   return this.users.find((user) => user.login === login && !user.isDeleted);
-  // }
+  async findByLogin(login: string): Promise<User> {
+    return await this.userRepository.findOne({
+      where: {
+        login,
+      },
+    });
+  }
 
-  // getAutoSuggestUsers(loginSubstringUserDto: LoginSubstringUserDto) {
-  //   return this.users
-  //     .filter(
-  //       (user) =>
-  //         !user.isDeleted &&
-  //         user.login
-  //           .toLowerCase()
-  //           .includes(loginSubstringUserDto.loginSubstring.toLowerCase()),
-  //     )
-  //     .sort(getFunctionCompare('login'))
-  //     .slice(0, loginSubstringUserDto.limit);
-  // }
-
-  // update(id: string, updateUserDto: UpdateUserDto) {
-  //   const i = this.users.findIndex((user) => user.id === id && !user.isDeleted);
-  //   if (i === -1) return null;
-  //   this.users[i] = {
-  //     ...this.users[i],
-  //     ...updateUserDto,
-  //   };
-  //   return this.users[i];
-  // }
-
-  // remove(id: string) {
-  //   const i = this.users.findIndex((user) => user.id === id && !user.isDeleted);
-  //   if (i === -1) return null;
-  //   this.users[i].isDeleted = true;
-  //   return this.users[i];
-  // }
+  async remove(user: User) {
+    return await user.update({ isDeleted: true });
+  }
 }
