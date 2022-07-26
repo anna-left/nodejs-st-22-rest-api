@@ -17,6 +17,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './users.model';
 import { UpdateUserDto } from './dto/update-user.dto';
+// import { SearchUserDto } from './dto/search-user.dto';
 
 @ApiTags('Users')
 @Controller('v1/users')
@@ -38,6 +39,7 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [User] })
+  // @ApiQuery({ type: SearchUserDto })
   @Get()
   findAll(@Query() query: { loginSubstring: string; limit: number }) {
     return this.usersService.findAll(query);

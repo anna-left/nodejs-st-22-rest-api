@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { User } from './users.model';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Op } from 'sequelize';
+
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { SearchUserDto } from './dto/search-user.dto';
+import { User } from './users.model';
 
 @Injectable()
 export class UsersService {
@@ -18,17 +20,23 @@ export class UsersService {
 
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [User] })
-  async findAll(params: { loginSubstring: string; limit: number }) {
+  async findAll(params: SearchUserDto) {
+    const substring =
+      params.loginSubstring === undefined ? '' : params.loginSubstring;
+    const limit = Number(params.limit);
     const arrUsers = await this.userRepository.findAll({
       where: {
         isDeleted: false,
         login: {
-          [Op.like]: `%${params.loginSubstring}%`,
+          [Op.like]: `%${substring}%`,
         },
       },
       order: ['login'],
     });
-    return arrUsers.slice(0, params.limit);
+    if (!limit) {
+      return arrUsers;
+    }
+    return arrUsers.slice(0, limit);
   }
 
   @ApiOperation({ summary: 'Get one user by id' })

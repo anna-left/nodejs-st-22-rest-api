@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsString,
   IsNumber,
-  // IsBoolean,
   IsNotEmpty,
   Matches,
   Max,
@@ -31,8 +30,4 @@ export class CreateUserDto {
   @Max(130)
   @IsNotEmpty()
   readonly age: number;
-
-  // @IsBoolean()
-  // @IsNotEmpty()
-  // readonly isDeleted: boolean;
 }
