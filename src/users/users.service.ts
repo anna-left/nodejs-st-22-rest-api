@@ -54,6 +54,7 @@ export class UsersService {
   async findOne(id: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: {
+        isDeleted: false,
         id: Number(id),
       },
     });
@@ -86,11 +87,14 @@ export class UsersService {
   async findByLogin(login: string): Promise<User> {
     return await this.userRepository.findOne({
       where: {
+        isDeleted: false,
         login,
       },
     });
   }
 
+  @ApiOperation({ summary: 'Update user' })
+  @ApiResponse({ status: 200, type: User })
   async remove(id: string) {
     const user = await this.findOne(id);
     if (!user) {
