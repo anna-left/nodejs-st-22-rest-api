@@ -73,11 +73,11 @@ export class UsersService {
     }
     if (
       updateUserDto.hasOwnProperty('login') &&
-      updateUserDto.login !== user.login
+      updateUserDto['login'] !== user.login
     ) {
-      if (await this.findByLogin(updateUserDto.login)) {
+      if (await this.findByLogin(updateUserDto['login'])) {
         throw new BadRequestException(
-          `User ${updateUserDto.login} already exists in the database`,
+          `User ${updateUserDto['login']} already exists in the database`,
         );
       }
     }

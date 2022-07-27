@@ -117,7 +117,7 @@
 			"response": []
 		},
 		{
-			"name": "PUT",
+			"name": "update",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
