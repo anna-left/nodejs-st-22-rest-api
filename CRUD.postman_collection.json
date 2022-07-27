@@ -7,114 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "GET all",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true,
-				"disabledSystemHeaders": {}
-			},
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "localhost:3000/v1/users?limit=0&offset=0",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"v1",
-						"users"
-					],
-					"query": [
-						{
-							"key": "limit",
-							"value": "0"
-						},
-						{
-							"key": "offset",
-							"value": "0"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET by ID",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true,
-				"disabledSystemHeaders": {}
-			},
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "localhost:3000/v1/users/00d247eb-03ad-419c-965d-ba2b3d37b615",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"v1",
-						"users",
-						"00d247eb-03ad-419c-965d-ba2b3d37b615"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET limitusers",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true,
-				"disabledSystemHeaders": {}
-			},
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"loginSubstring\": \"John\",\r\n  \"limit\": 5\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:3000/v1/users/limitusers",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"v1",
-						"users",
-						"limitusers"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST user",
+			"name": "createUser",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -122,11 +15,11 @@
 				"auth": {
 					"type": "noauth"
 				},
-				"method": "PUT",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"login\": \"John\",\r\n  \"password\": \"www111\",\r\n  \"age\": 26,\r\n  \"isDeleted\": false\r\n}",
+					"raw": "{\r\n  \"login\": \"John Doe\",\r\n  \"password\": \"secret22\",\r\n  \"age\": 23\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -148,6 +41,82 @@
 			"response": []
 		},
 		{
+			"name": "findAll",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/users?loginSubstring=John&limit=5",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"users"
+					],
+					"query": [
+						{
+							"key": "loginSubstring",
+							"value": "John"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findOne",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/v1/users/5",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"users",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "PUT",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
@@ -160,7 +129,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"login\": \"John Doe\",\r\n  \"password\": \"www123\",\r\n  \"age\": 23,\r\n  \"isDeleted\": false\r\n}",
+					"raw": "{\r\n  \"login\": \"James Bond\",\r\n  \"password\": \"www12377\",\r\n  \"age\": 24,\r\n  \"isDeleted\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -168,7 +137,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/v1/users/68622047-b59f-44cc-a105-4041564587a0",
+					"raw": "localhost:3000/v1/users/5",
 					"host": [
 						"localhost"
 					],
@@ -176,7 +145,7 @@
 					"path": [
 						"v1",
 						"users",
-						"68622047-b59f-44cc-a105-4041564587a0"
+						"5"
 					]
 				}
 			},
@@ -198,7 +167,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/v1/users/36bdd88c-a5f3-4352-b1db-069e51c24fde",
+					"raw": "localhost:3000/v1/users/4",
 					"host": [
 						"localhost"
 					],
@@ -206,7 +175,7 @@
 					"path": [
 						"v1",
 						"users",
-						"36bdd88c-a5f3-4352-b1db-069e51c24fde"
+						"4"
 					]
 				}
 			},
