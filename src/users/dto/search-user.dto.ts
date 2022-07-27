@@ -1,12 +1,11 @@
-import { IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class SearchUserDto {
   @IsString()
   @IsOptional()
   loginSubstring: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  @Min(0)
-  limit: number;
+  limit: string;
 }

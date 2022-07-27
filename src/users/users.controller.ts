@@ -8,12 +8,12 @@ import {
   Delete,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SearchUserDto } from './dto/search-user.dto';
 import { User } from './users.model';
-// import { SearchUserDto } from './dto/search-user.dto';
 
 @ApiTags('Users')
 @Controller('v1/users')
@@ -29,9 +29,9 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [User] })
-  // @ApiQuery({ type: SearchUserDto })
+  @ApiQuery({ type: SearchUserDto })
   @Get()
-  async findAll(@Query() query: { loginSubstring: string; limit: number }) {
+  async findAll(@Query() query: SearchUserDto) {
     return await this.usersService.findAll(query);
   }
 
