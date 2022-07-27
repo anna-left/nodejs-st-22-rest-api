@@ -3,20 +3,28 @@
 
 ## Installation
 ```
-git clone https://github.com/anna-left/nodejs-st-22-node.git
+git clone https://github.com/anna-left/nodejs-st-22-rest-api.git
 
 git checkout task-4-1
 or
 git checkout task-4-2
 
 npm install
-rename .env.example file to .env
+rename .production.env.example file to .production.env
+rename .development.env.example file to .development.env
+enter your database information into files .production.env and .development.env
 ```
 
 ## Running the app
 
-```bash
+Development
+```
 $ npm run start:dev
+```
+
+Production
+```
+$ npm run start
 ```
 ## Queries
 
@@ -30,6 +38,11 @@ You can use Postman collection for sending requests
 ```
 CRUD.postman_collection.json
 ```
+
+SQL script which create Users table in the DB and fillit in with predefined users'collection
+```
+createTableUsers
+```
 ## Author
 
 👤 **Anna Rybakova**
@@ -38,4 +51,3 @@ CRUD.postman_collection.json
 - telegram: https://t.me/AnnaFavor
 
 If you have any questions please contact me
-
