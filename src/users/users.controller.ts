@@ -8,7 +8,7 @@ import {
   Delete,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -22,6 +22,7 @@ export class UsersController {
 
   @ApiOperation({ summary: 'User creation' })
   @ApiResponse({ status: 200, type: User })
+  @ApiBody({ type: CreateUserDto })
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.usersService.createUser(createUserDto);
@@ -29,7 +30,6 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [User] })
-  @ApiQuery({ type: SearchUserDto })
   @Get()
   async findAll(@Query() query: SearchUserDto) {
     return await this.usersService.findAll(query);
