@@ -7,10 +7,10 @@ import { InjectModel } from '@nestjs/sequelize';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Op } from 'sequelize';
 
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { SearchUserDto } from './dto/search-user.dto';
-import { User } from './users.model';
+import { CreateUserDto } from '../data-access/create-user.dto';
+import { UpdateUserDto } from '../data-access/update-user.dto';
+import { SearchUserDto } from '../data-access/search-user.dto';
+import { User } from '../models/users.model';
 
 @Injectable()
 export class UsersService {

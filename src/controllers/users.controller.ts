@@ -9,11 +9,11 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { SearchUserDto } from './dto/search-user.dto';
-import { User } from './users.model';
+import { UsersService } from '../services/users.service';
+import { CreateUserDto } from '../data-access/create-user.dto';
+import { UpdateUserDto } from '../data-access/update-user.dto';
+import { SearchUserDto } from '../data-access/search-user.dto';
+import { User } from '../models/users.model';
 
 @ApiTags('Users')
 @Controller('v1/users')
