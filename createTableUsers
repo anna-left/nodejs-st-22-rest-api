@@ -7,5 +7,5 @@ CREATE TABLE users
     isDeleted boolean DEFAULT false
 );
 INSERT INTO users (login, password, Age) VALUES ('ArkadiiDobkin', 'EPAM2022', 64);
-INSERT INTO users (login, password, Age) VALUES ('ElonMusk', 'Tesla 2003', 50);
+INSERT INTO users (login, password, Age) VALUES ('ElonMusk', 'Tesla2003', 50);
 INSERT INTO users (login, password, Age) VALUES ('BillGates', ' Microsoft1975', 67);
