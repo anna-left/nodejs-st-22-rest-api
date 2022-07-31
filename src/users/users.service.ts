@@ -38,7 +38,7 @@ export class UsersService {
       where: {
         isDeleted: false,
         login: {
-          [Op.like]: `%${substring}%`,
+          [Op.iLike]: `%${substring}%`,
         },
       },
       order: ['login'],
