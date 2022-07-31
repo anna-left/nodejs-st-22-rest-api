@@ -1,0 +1,11 @@
+CREATE TABLE users
+(
+    Id SERIAL PRIMARY KEY,
+    login CHARACTER VARYING(30) CHECK(login !=''),
+    password CHARACTER VARYING(30) CHECK(password !=''),
+    Age INTEGER NOT NULL,
+    "isDeleted" boolean DEFAULT false
+);
+INSERT INTO users (login, password, Age) VALUES ('ArkadiiDobkin', 'EPAM1993', 64);
+INSERT INTO users (login, password, Age) VALUES ('ElonMusk', 'Tesla2003', 50);
+INSERT INTO users (login, password, Age) VALUES ('BillGates', ' Microsoft1975', 67);
