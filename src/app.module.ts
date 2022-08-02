@@ -19,6 +19,9 @@ import { User } from './users/users.model';
       database: process.env.POSTGRES_DATABASE,
       models: [User],
       autoLoadModels: true,
+      define: {
+        timestamps: false,
+      },
     }),
   ],
   controllers: [],

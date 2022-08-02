@@ -13,6 +13,7 @@ npm install
 rename .production.env.example file to .production.env
 rename .development.env.example file to .development.env
 enter your database information into files .production.env and .development.env
+create a "Users" table in your database using SQL script createTableUsers
 ```
 
 ## Running the app
