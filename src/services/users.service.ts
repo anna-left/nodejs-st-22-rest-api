@@ -1,105 +1,84 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { Op } from 'sequelize';
+import { Injectable } from '@nestjs/common';
 
 import { CreateUserDto } from '../data-access/create-user.dto';
 import { UpdateUserDto } from '../data-access/update-user.dto';
 import { SearchUserDto } from '../data-access/search-user.dto';
-import { User } from '../models/users.model';
+import { UsersRepository } from '../data-access/users.repository';
+import { HTTP_RESPONS_MESSAGES } from '../utils/constants';
+import { uuidValidate } from 'src/utils/uuidValidate';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User) private userRepository: typeof User) {}
+  constructor(private usersRepository: UsersRepository) {}
 
-  @ApiOperation({ summary: 'User creation' })
-  @ApiResponse({ status: 200, type: User })
   async createUser(createUserDto: CreateUserDto) {
-    const user = await this.findByLogin(createUserDto.login);
+    const user = await this.usersRepository.findByLogin(createUserDto.login);
     if (user) {
-      throw new BadRequestException(
-        `User ${createUserDto.login} already exists in the database`,
-      );
+      return {
+        message: HTTP_RESPONS_MESSAGES.USER_EXISTS,
+      };
     }
-    return await this.userRepository.create(createUserDto);
+    return { value: await this.usersRepository.create(createUserDto) };
   }
 
-  @ApiOperation({ summary: 'Get all users' })
-  @ApiResponse({ status: 200, type: [User] })
   async findAll(params: SearchUserDto) {
     const substring =
       params.loginSubstring === undefined ? '' : params.loginSubstring;
-    const limit = Number(params.limit);
-    const arrUsers = await this.userRepository.findAll({
-      where: {
-        isDeleted: false,
-        login: {
-          [Op.iLike]: `%${substring}%`,
-        },
-      },
-      order: ['login'],
-    });
-    if (!limit) {
-      return arrUsers;
-    }
-    return arrUsers.slice(0, limit);
+    return await this.usersRepository.findAll(substring, Number(params.limit));
   }
 
-  @ApiOperation({ summary: 'Get one user by id' })
-  @ApiResponse({ status: 200, type: [User] })
-  async findOne(id: string): Promise<User> {
-    const user = await this.userRepository.findOne({
-      where: {
-        isDeleted: false,
-        id: Number(id),
-      },
-    });
+  async findOne(id: string) {
+    if (!uuidValidate(id)) {
+      return {
+        message: HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT,
+      };
+    }
+    const user = await this.usersRepository.findOne(id);
     if (!user) {
-      throw new NotFoundException("User does'n exist");
+      return {
+        message: HTTP_RESPONS_MESSAGES.USER_NOT_FOUND,
+      };
     }
-    return user;
+    return { value: user };
   }
 
-  @ApiOperation({ summary: 'Update user' })
-  @ApiResponse({ status: 200, type: User })
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const user = await this.findOne(id);
+    if (!uuidValidate(id)) {
+      return {
+        message: HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT,
+      };
+    }
+    const user = await this.usersRepository.findOne(id);
     if (!user) {
-      throw new NotFoundException("User does'n exist");
+      return {
+        message: HTTP_RESPONS_MESSAGES.USER_NOT_FOUND,
+      };
     }
     if (
       updateUserDto.hasOwnProperty('login') &&
       updateUserDto['login'] !== user.login
     ) {
-      if (await this.findByLogin(updateUserDto['login'])) {
-        throw new BadRequestException(
-          `User ${updateUserDto['login']} already exists in the database`,
-        );
+      if (await this.usersRepository.findByLogin(updateUserDto['login'])) {
+        return {
+          message: HTTP_RESPONS_MESSAGES.USER_EXISTS,
+        };
       }
     }
-    return await user.update(updateUserDto);
+    return { value: await user.update(updateUserDto) };
   }
 
-  async findByLogin(login: string): Promise<User> {
-    return await this.userRepository.findOne({
-      where: {
-        isDeleted: false,
-        login,
-      },
-    });
-  }
-
-  @ApiOperation({ summary: 'Update user' })
-  @ApiResponse({ status: 200, type: User })
   async remove(id: string) {
-    const user = await this.findOne(id);
-    if (!user) {
-      throw new NotFoundException("User does'n exist");
+    if (!uuidValidate(id)) {
+      return {
+        message: HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT,
+      };
     }
-    return await user.update({ isDeleted: true });
+    const user = await this.usersRepository.findOne(id);
+    if (!user) {
+      return {
+        message: HTTP_RESPONS_MESSAGES.USER_NOT_FOUND,
+      };
+    }
+    return { value: await user.update({ isDeleted: true }) };
   }
 }

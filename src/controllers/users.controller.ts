@@ -7,6 +7,8 @@ import {
   Query,
   Delete,
   Put,
+  BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from '../services/users.service';
@@ -14,18 +16,27 @@ import { CreateUserDto } from '../data-access/create-user.dto';
 import { UpdateUserDto } from '../data-access/update-user.dto';
 import { SearchUserDto } from '../data-access/search-user.dto';
 import { User } from '../models/users.model';
+import { HTTP_RESPONS_MESSAGES } from '../utils/constants';
 
+interface IAnswer {
+  message?: string;
+  value?: User | [User];
+}
 @ApiTags('Users')
 @Controller('v1/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({ summary: 'User creation' })
-  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 201, type: User })
   @ApiBody({ type: CreateUserDto })
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    return await this.usersService.createUser(createUserDto);
+    const answer: IAnswer = await this.usersService.createUser(createUserDto);
+    if (answer.message) {
+      throw new BadRequestException(answer.message);
+    }
+    return answer.value;
   }
 
   @ApiOperation({ summary: 'Get all users' })
@@ -39,20 +50,37 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.usersService.findOne(id);
+    const answer = await this.usersService.findOne(id);
+    if (answer.message === HTTP_RESPONS_MESSAGES.USER_NOT_FOUND) {
+      throw new NotFoundException(answer.message);
+    } else if (answer.message) {
+      throw new BadRequestException(answer.message);
+    }
+    return answer.value;
   }
 
   @ApiOperation({ summary: 'Update user' })
   @ApiResponse({ status: 200, type: User })
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return await this.usersService.update(id, updateUserDto);
+    const answer = await this.usersService.update(id, updateUserDto);
+    if (answer.message === HTTP_RESPONS_MESSAGES.USER_NOT_FOUND) {
+      throw new NotFoundException(answer.message);
+    } else if (answer.message) {
+      throw new BadRequestException(answer.message);
+    }
+    return answer.value;
   }
 
   @ApiOperation({ summary: 'Remove user' })
-  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 204 })
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    await this.usersService.remove(id);
+    const answer = await this.usersService.remove(id);
+    if (answer.message === HTTP_RESPONS_MESSAGES.USER_NOT_FOUND) {
+      throw new NotFoundException(answer.message);
+    } else if (answer.message) {
+      throw new BadRequestException(answer.message);
+    }
   }
 }
