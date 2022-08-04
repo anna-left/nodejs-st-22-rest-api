@@ -1,3 +1,4 @@
+import { DataTypes } from 'sequelize';
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
@@ -11,9 +12,9 @@ interface UserCreationAttrs {
 export class User extends Model<User, UserCreationAttrs> {
   @ApiProperty({ example: '1', description: 'Unique identificator' })
   @Column({
-    type: DataType.INTEGER,
+    type: DataTypes.UUIDV4,
     unique: true,
-    autoIncrement: true,
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   })
   id: number;

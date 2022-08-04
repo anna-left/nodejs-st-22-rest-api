@@ -29,7 +29,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({ summary: 'User creation' })
-  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 201, type: User })
   @ApiBody({ type: CreateUserDto })
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
@@ -72,13 +72,12 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Remove user' })
-  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 204 })
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const answer = await this.usersService.remove(id);
     if (answer.message) {
       throw new NotFoundException(answer.message);
     }
-    return answer.value;
   }
 }
