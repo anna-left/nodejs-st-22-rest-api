@@ -1,23 +1,31 @@
-# Task-3-1, Task-3-2
+# Task-4-1, Task-4-2
 
 
 ## Installation
 ```
-git clone https://github.com/anna-left/nodejs-st-22-node.git
+- git clone https://github.com/anna-left/nodejs-st-22-rest-api.git
 
-git checkout task-3-1
-or
-git checkout task-3-2
+- git checkout task-4-1
+  or
+- git checkout task-4-2
 
-rename file .env.example to .env
-cd crud-rest-service
-npm install
+- npm install
+- rename .env.example file to .env
+- enter your database information into file .env
+- create a "Users" table in your database using script migrate
+- fillit in with predefined users’collection using script seed
 ```
 
 ## Running the app
 
-```bash
+Development
+```
 $ npm run start:dev
+```
+
+Production
+```
+$ npm run start
 ```
 ## Queries
 
@@ -31,6 +39,11 @@ You can use Postman collection for sending requests
 ```
 CRUD.postman_collection.json
 ```
+
+SQL script which create Users table in the DB and fillit in with predefined users'collection
+```
+createTableUsers
+```
 ## Author
 
 👤 **Anna Rybakova**
@@ -39,4 +52,3 @@ CRUD.postman_collection.json
 - telegram: https://t.me/AnnaFavor
 
 If you have any questions please contact me
-
