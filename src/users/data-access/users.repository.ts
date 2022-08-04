@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
 
 import { User } from '../models/users.model';
-import { CreateUserDto } from '../data-access/create-user.dto';
+import { CreateUserDto } from './create-user.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -38,7 +38,6 @@ export class UsersRepository {
   async findByLogin(login: string): Promise<User> {
     return await this.userModel.findOne({
       where: {
-        isDeleted: false,
         login,
       },
     });

@@ -11,12 +11,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UsersService } from '../services/users.service';
+import { UsersService } from '../models/users.service';
 import { CreateUserDto } from '../data-access/create-user.dto';
 import { UpdateUserDto } from '../data-access/update-user.dto';
 import { SearchUserDto } from '../data-access/search-user.dto';
 import { User } from '../models/users.model';
-import { HTTP_RESPONS_MESSAGES } from '../utils/constants';
+import { HTTP_RESPONS_MESSAGES } from '../../utils/constants';
 
 interface IAnswer {
   message?: string;
