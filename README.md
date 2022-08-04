@@ -3,17 +3,17 @@
 
 ## Installation
 ```
-git clone https://github.com/anna-left/nodejs-st-22-rest-api.git
+- git clone https://github.com/anna-left/nodejs-st-22-rest-api.git
 
-git checkout task-4-1
-or
-git checkout task-4-2
+- git checkout task-4-1
+  or
+- git checkout task-4-2
 
-npm install
-rename .production.env.example file to .production.env
-rename .development.env.example file to .development.env
-enter your database information into files .production.env and .development.env
-create a "Users" table in your database using SQL script createTableUsers
+- npm install
+- rename .env.example file to .env
+- enter your database information into file .env
+- create a "Users" table in your database using script migrate
+- fillit in with predefined users’collection using script seed
 ```
 
 ## Running the app
