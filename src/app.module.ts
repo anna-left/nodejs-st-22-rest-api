@@ -1,19 +1,25 @@
 import { Module } from '@nestjs/common';
-import { SequelizeModule } from '@nestjs/sequelize';
-import { UsersModule } from './users/users.module';
 import 'dotenv/config';
+import { SequelizeModule } from '@nestjs/sequelize';
+
+import { UsersModule } from './users/users.module';
 import { User } from './users/models/users.model';
+import { GroupsModule } from './groups/groups.module';
+import { Group } from './groups/models/groups.model';
+// import { UserGroup } from './user-group/models/users-groups.model';
 
 @Module({
   imports: [
     UsersModule,
+    GroupsModule,
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.DB_HOST,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      models: [User],
+      models: [User, Group],
+      // models: [User, Group, UserGroup],
       autoLoadModels: true,
       define: {
         timestamps: false,
