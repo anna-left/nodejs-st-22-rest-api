@@ -9,7 +9,11 @@ export class GroupsRepository {
   constructor(@InjectModel(Group) private groupModel: typeof Group) {}
 
   async create(createGroupDto: CreateGroupDto): Promise<Group> {
-    return await this.groupModel.create(createGroupDto);
+    try {
+      return await this.groupModel.create(createGroupDto);
+    } catch (error) {
+      return error.message;
+    }
   }
 
   async findAll() {

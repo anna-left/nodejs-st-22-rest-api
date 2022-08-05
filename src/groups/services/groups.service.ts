@@ -53,8 +53,11 @@ export class GroupsService {
         return HTTP_RESPONS_MESSAGES.GROUP_EXISTS;
       }
     }
-
-    return await group.update(updateGroupDto);
+    try {
+      return await group.update(updateGroupDto);
+    } catch (error) {
+      return error.message;
+    }
   }
 
   async remove(id: string) {

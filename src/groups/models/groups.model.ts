@@ -16,6 +16,7 @@ interface GroupCreationAttrs {
 }
 
 export type Permission = 'READ' | 'WRITE' | 'DELETE' | 'SHARE' | 'UPLOAD_FILES';
+const permissionsTypes = ['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'];
 
 @Table({ tableName: 'groups' })
 export class Group extends Model<Group, GroupCreationAttrs> {
@@ -39,7 +40,19 @@ export class Group extends Model<Group, GroupCreationAttrs> {
   name: string;
 
   @ApiProperty({ example: '[READ, WRITE]', description: 'permissions' })
-  @Column({ type: DataType.ARRAY(DataType.STRING), allowNull: false })
+  @Column({
+    type: DataType.ARRAY(DataTypes.STRING),
+    allowNull: false,
+    validate: {
+      wrongPermission() {
+        for (let i = 0; i < this.permission.length; i++) {
+          if (!permissionsTypes.includes(this.permission[i])) {
+            throw new Error(`${this.permission[i]}: wrong permission`);
+          }
+        }
+      },
+    },
+  })
   permission: Array<Permission>;
 
   // @BelongsToMany(() => User, () => UserGroup)
