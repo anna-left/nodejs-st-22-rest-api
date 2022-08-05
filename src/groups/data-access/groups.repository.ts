@@ -23,4 +23,12 @@ export class GroupsRepository {
       },
     });
   }
+
+  async findByName(name: string): Promise<Group> {
+    return await this.groupModel.findOne({
+      where: {
+        name,
+      },
+    });
+  }
 }

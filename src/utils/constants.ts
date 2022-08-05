@@ -5,6 +5,7 @@ const HTTP_RESPONS_MESSAGES = {
   USER_EXISTS_DELETED:
     'User with this login already exists in the database (softly deleted)',
   GROUP_NOT_FOUND: "Group does'n exist",
+  GROUP_EXISTS: 'Group with this name already exists in the database',
 };
 
 export { HTTP_RESPONS_MESSAGES };

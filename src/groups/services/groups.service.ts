@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { CreateGroupDto } from '../data-access/create-group.dto';
-import { UpdateGroupDto } from '../data-access/update-user.dto';
+import { UpdateGroupDto } from '../data-access/update-group.dto';
 import { GroupsRepository } from '../data-access/groups.repository';
 import { HTTP_RESPONS_MESSAGES } from '../../utils/constants';
 import { uuidValidate } from 'src/utils/uuidValidate';
@@ -11,6 +11,10 @@ export class GroupsService {
   constructor(private groupsRepository: GroupsRepository) {}
 
   async createGroup(createGroupDto: CreateGroupDto) {
+    const group = await this.groupsRepository.findByName(createGroupDto.name);
+    if (group) {
+      return HTTP_RESPONS_MESSAGES.GROUP_EXISTS;
+    }
     return await this.groupsRepository.create(createGroupDto);
   }
 
@@ -38,6 +42,18 @@ export class GroupsService {
       return HTTP_RESPONS_MESSAGES.GROUP_NOT_FOUND;
     }
 
+    if (
+      updateGroupDto.hasOwnProperty('name') &&
+      updateGroupDto['name'] !== group.name
+    ) {
+      const group = await this.groupsRepository.findByName(
+        updateGroupDto['name'],
+      );
+      if (group) {
+        return HTTP_RESPONS_MESSAGES.GROUP_EXISTS;
+      }
+    }
+
     return await group.update(updateGroupDto);
   }
 
@@ -47,7 +63,7 @@ export class GroupsService {
     }
     const group = await this.groupsRepository.findOne(id);
     if (!group) {
-      return HTTP_RESPONS_MESSAGES.USER_NOT_FOUND;
+      return HTTP_RESPONS_MESSAGES.GROUP_NOT_FOUND;
     }
     return await group.destroy();
   }
