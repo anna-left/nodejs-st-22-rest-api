@@ -6,14 +6,13 @@ import {
   Param,
   Delete,
   Put,
-  BadRequestException,
-  NotFoundException,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GroupsService } from '../services/groups.service';
 import { CreateGroupDto } from '../data-access/create-group.dto';
 import { Group } from '../models/groups.model';
-import { HTTP_RESPONS_MESSAGES } from '../../utils/constants';
+import { UpdateGroupDto } from '../data-access/update-group.dto';
+import { handleResponse } from 'src/utils/handle-response';
 
 type Answer = string | Group | [Group] | undefined;
 
@@ -28,10 +27,7 @@ export class GroupsController {
   @Post()
   async create(@Body() createGroupDto: CreateGroupDto) {
     const answer: Answer = await this.groupsService.createGroup(createGroupDto);
-    if (typeof answer === 'string') {
-      throw new BadRequestException(answer);
-    }
-    return answer;
+    return handleResponse(answer);
   }
 
   @ApiOperation({ summary: 'Get all groups' })
@@ -46,12 +42,7 @@ export class GroupsController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const answer = await this.groupsService.findOne(id);
-    if (answer === HTTP_RESPONS_MESSAGES.USER_NOT_FOUND) {
-      throw new NotFoundException(answer);
-    } else if (typeof answer === 'string') {
-      throw new BadRequestException(answer);
-    }
-    return answer;
+    return handleResponse(answer);
   }
 
   @ApiOperation({ summary: 'Update group' })
@@ -59,15 +50,10 @@ export class GroupsController {
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() updateGroupDto: CreateGroupDto,
+    @Body() updateGroupDto: UpdateGroupDto,
   ) {
     const answer = await this.groupsService.update(id, updateGroupDto);
-    if (answer === HTTP_RESPONS_MESSAGES.USER_NOT_FOUND) {
-      throw new NotFoundException(answer);
-    } else if (typeof answer === 'string') {
-      throw new BadRequestException(answer);
-    }
-    return answer;
+    return handleResponse(answer);
   }
 
   @ApiOperation({ summary: 'Remove group' })
@@ -75,10 +61,6 @@ export class GroupsController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const answer = await this.groupsService.remove(id);
-    if (answer === HTTP_RESPONS_MESSAGES.USER_NOT_FOUND) {
-      throw new NotFoundException(answer);
-    } else if (answer) {
-      throw new BadRequestException(answer);
-    }
+    return handleResponse(answer);
   }
 }

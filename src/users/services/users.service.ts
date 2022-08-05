@@ -15,15 +15,11 @@ export class UsersService {
     const user = await this.usersRepository.findByLogin(createUserDto.login);
     if (user) {
       if (user.isDeleted) {
-        return {
-          message: HTTP_RESPONS_MESSAGES.USER_EXISTS_DELETED,
-        };
+        return HTTP_RESPONS_MESSAGES.USER_EXISTS_DELETED;
       }
-      return {
-        message: HTTP_RESPONS_MESSAGES.USER_EXISTS,
-      };
+      return HTTP_RESPONS_MESSAGES.USER_EXISTS;
     }
-    return { value: await this.usersRepository.create(createUserDto) };
+    return await this.usersRepository.create(createUserDto);
   }
 
   async findAll(params: SearchUserDto) {
@@ -34,30 +30,22 @@ export class UsersService {
 
   async findOne(id: string) {
     if (!uuidValidate(id)) {
-      return {
-        message: HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT,
-      };
+      return HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT;
     }
     const user = await this.usersRepository.findOne(id);
     if (!user) {
-      return {
-        message: HTTP_RESPONS_MESSAGES.USER_NOT_FOUND,
-      };
+      return HTTP_RESPONS_MESSAGES.USER_NOT_FOUND;
     }
-    return { value: user };
+    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     if (!uuidValidate(id)) {
-      return {
-        message: HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT,
-      };
+      return HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT;
     }
     const user = await this.usersRepository.findOne(id);
     if (!user) {
-      return {
-        message: HTTP_RESPONS_MESSAGES.USER_NOT_FOUND,
-      };
+      return HTTP_RESPONS_MESSAGES.USER_NOT_FOUND;
     }
     if (
       updateUserDto.hasOwnProperty('login') &&
@@ -68,30 +56,22 @@ export class UsersService {
       );
       if (user) {
         if (user.isDeleted) {
-          return {
-            message: HTTP_RESPONS_MESSAGES.USER_EXISTS_DELETED,
-          };
+          return HTTP_RESPONS_MESSAGES.USER_EXISTS_DELETED;
         }
-        return {
-          message: HTTP_RESPONS_MESSAGES.USER_EXISTS,
-        };
+        return HTTP_RESPONS_MESSAGES.USER_EXISTS;
       }
     }
-    return { value: await user.update(updateUserDto) };
+    return await user.update(updateUserDto);
   }
 
   async remove(id: string) {
     if (!uuidValidate(id)) {
-      return {
-        message: HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT,
-      };
+      return HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT;
     }
     const user = await this.usersRepository.findOne(id);
     if (!user) {
-      return {
-        message: HTTP_RESPONS_MESSAGES.USER_NOT_FOUND,
-      };
+      return HTTP_RESPONS_MESSAGES.USER_NOT_FOUND;
     }
-    return { value: await user.update({ isDeleted: true }) };
+    await user.update({ isDeleted: true });
   }
 }

@@ -68,6 +68,6 @@ export class GroupsService {
     if (!group) {
       return HTTP_RESPONS_MESSAGES.GROUP_NOT_FOUND;
     }
-    return await group.destroy();
+    await group.destroy();
   }
 }

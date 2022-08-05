@@ -35,6 +35,7 @@ export class Group extends Model<Group, GroupCreationAttrs> {
   @ApiProperty({ example: 'admins', description: 'group name' })
   @Column({
     type: DataType.STRING,
+    unique: true,
     allowNull: false,
   })
   name: string;
@@ -47,7 +48,7 @@ export class Group extends Model<Group, GroupCreationAttrs> {
       wrongPermission() {
         for (let i = 0; i < this.permission.length; i++) {
           if (!permissionsTypes.includes(this.permission[i])) {
-            throw new Error(`${this.permission[i]}: wrong permission`);
+            throw new Error(`${this.permission[i]} - wrong permission`);
           }
         }
       },
