@@ -17,7 +17,7 @@ export class User extends Model<User, UserCreationAttrs> {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   })
-  id: number;
+  id: string;
 
   @ApiProperty({ example: 'John', description: 'user login' })
   @Column({
