@@ -7,15 +7,15 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
+import { PermissionsENUM } from 'src/utils/constants';
 import { User } from 'src/models/users.model';
 import { UserGroups } from 'src/models/user-groups.model';
 
 interface GroupCreationAttrs {
   name: string;
-  permission: Array<Permission>;
+  permission: Array<PermissionsENUM>;
 }
 
-export type Permission = 'READ' | 'WRITE' | 'DELETE' | 'SHARE' | 'UPLOAD_FILES';
 const permissionsTypes = ['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'];
 
 @Table({ tableName: 'groups' })
@@ -43,17 +43,8 @@ export class Group extends Model<Group, GroupCreationAttrs> {
       }),
     ),
     allowNull: true,
-    validate: {
-      wrongPermission() {
-        for (let i = 0; i < this.permission.length; i++) {
-          if (!permissionsTypes.includes(this.permission[i])) {
-            throw new Error(`${this.permission[i]} - wrong permission`);
-          }
-        }
-      },
-    },
   })
-  permission: Array<Permission>;
+  permission: Array<PermissionsENUM>;
 
   @BelongsToMany(() => User, () => UserGroups)
   users: User[];
