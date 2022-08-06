@@ -5,12 +5,11 @@ import { GroupsController } from '../controllers/groups.controller';
 import { Group } from '../models/groups.model';
 import { GroupsRepository } from '../data-access/groups/groups.repository';
 import { User } from 'src/models/users.model';
-// import { UserGroup } from 'src/user-group/models/users-groups.model';
+import { UserGroups } from 'src/models/user-groups.model';
 
 @Module({
   controllers: [GroupsController],
   providers: [GroupsService, GroupsRepository],
-  imports: [SequelizeModule.forFeature([Group, User])],
-  // imports: [SequelizeModule.forFeature([Group, User, UserGroup])],
+  imports: [SequelizeModule.forFeature([Group, User, UserGroups])],
 })
 export class GroupsModule {}

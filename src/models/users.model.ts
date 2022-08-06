@@ -3,13 +3,14 @@ import {
   AllowNull,
   Column,
   DataType,
-  // Default,
-  // IsUUID,
   Model,
   Table,
   Unique,
+  BelongsToMany,
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { Group } from './groups.model';
+import { UserGroups } from './user-groups.model';
 
 interface UserCreationAttrs {
   login: string;
@@ -50,4 +51,7 @@ export class User extends Model<User, UserCreationAttrs> {
     },
   })
   isDeleted: boolean;
+
+  @BelongsToMany(() => Group, () => UserGroups)
+  groups: Group[];
 }

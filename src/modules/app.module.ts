@@ -6,7 +6,7 @@ import { UsersModule } from './users.module';
 import { User } from '../models/users.model';
 import { GroupsModule } from './groups.module';
 import { Group } from '../models/groups.model';
-// import { UserGroup } from './user-group/models/users-groups.model';
+import { UserGroups } from 'src/models/user-groups.model';
 
 @Module({
   imports: [
@@ -18,8 +18,7 @@ import { Group } from '../models/groups.model';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      models: [User, Group],
-      // models: [User, Group, UserGroup],
+      models: [User, Group, UserGroups],
       autoLoadModels: true,
       define: {
         timestamps: false,

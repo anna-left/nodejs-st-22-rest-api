@@ -1,14 +1,14 @@
 import { DataTypes } from 'sequelize';
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  // BelongsToMany,
+  BelongsToMany,
   Column,
   DataType,
   Model,
   Table,
 } from 'sequelize-typescript';
-// import { User } from 'src/users/models/users.model';
-// import { UserGroup } from 'src/user-group/models/users-groups.model';
+import { User } from 'src/models/users.model';
+import { UserGroups } from 'src/models/user-groups.model';
 
 interface GroupCreationAttrs {
   name: string;
@@ -55,6 +55,6 @@ export class Group extends Model<Group, GroupCreationAttrs> {
   })
   permission: Array<Permission>;
 
-  // @BelongsToMany(() => User, () => UserGroup)
-  // users: User[];
+  @BelongsToMany(() => User, () => UserGroups)
+  users: User[];
 }
