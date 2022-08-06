@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateUserDto } from '../data-access/create-user.dto';
-import { UpdateUserDto } from '../data-access/update-user.dto';
-import { SearchUserDto } from '../data-access/search-user.dto';
-import { UsersRepository } from '../data-access/users.repository';
-import { HTTP_RESPONS_MESSAGES } from '../../utils/constants';
+import { CreateUserDto } from '../data-access/users/create-user.dto';
+import { UpdateUserDto } from '../data-access/users/update-user.dto';
+import { SearchUserDto } from '../data-access/users/search-user.dto';
+import { UsersRepository } from '../data-access/users/users.repository';
+import { HTTP_RESPONS_MESSAGES } from '../utils/constants';
 import { uuidValidate } from 'src/utils/uuidValidate';
 
 @Injectable()

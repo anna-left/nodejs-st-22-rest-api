@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import 'dotenv/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 
-import { UsersModule } from './users/users.module';
-import { User } from './users/models/users.model';
-import { GroupsModule } from './groups/groups.module';
-import { Group } from './groups/models/groups.model';
+import { UsersModule } from './users.module';
+import { User } from '../models/users.model';
+import { GroupsModule } from './groups.module';
+import { Group } from '../models/groups.model';
 // import { UserGroup } from './user-group/models/users-groups.model';
 
 @Module({

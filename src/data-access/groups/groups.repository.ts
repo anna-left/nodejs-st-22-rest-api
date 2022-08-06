@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 
-import { Group } from '../models/groups.model';
+import { Group } from '../../models/groups.model';
 import { CreateGroupDto } from './create-group.dto';
 
 @Injectable()

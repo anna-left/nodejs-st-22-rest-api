@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GroupsService } from '../services/groups.service';
-import { CreateGroupDto } from '../data-access/create-group.dto';
+import { CreateGroupDto } from '../data-access/groups/create-group.dto';
 import { Group } from '../models/groups.model';
-import { UpdateGroupDto } from '../data-access/update-group.dto';
-import { handleResponse } from 'src/utils/handle-response';
+import { UpdateGroupDto } from '../data-access/groups/update-group.dto';
+import { handleResponse } from 'src/controllers/handle-response';
 
 type Answer = string | Group | [Group] | undefined;
 
