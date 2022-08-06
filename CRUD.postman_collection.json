@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "createUser",
+			"name": "create user",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -19,7 +19,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"login\": \"John Doe\",\r\n  \"password\": \"secret22\",\r\n  \"age\": 23\r\n}",
+					"raw": "{\r\n  \"login\": \"John Doe\",\r\n  \"password\": \"secret123\",\r\n  \"age\": 26,\r\n  \"isDeleted\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,7 +41,7 @@
 			"response": []
 		},
 		{
-			"name": "findAll",
+			"name": "findAll users",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true,
 				"disabledSystemHeaders": {}
@@ -62,7 +62,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/v1/users?loginSubstring=John&limit=5",
+					"raw": "localhost:3000/v1/users",
 					"host": [
 						"localhost"
 					],
@@ -74,11 +74,13 @@
 					"query": [
 						{
 							"key": "loginSubstring",
-							"value": "John"
+							"value": "arkadii",
+							"disabled": true
 						},
 						{
 							"key": "limit",
-							"value": "5"
+							"value": "2",
+							"disabled": true
 						}
 					]
 				}
@@ -86,7 +88,7 @@
 			"response": []
 		},
 		{
-			"name": "findOne",
+			"name": "findOne user",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true,
 				"disabledSystemHeaders": {}
@@ -102,7 +104,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/v1/users/5",
+					"raw": "localhost:3000/v1/users/0d8902b4-6aab-4870-a7c9-8adcadff1b31",
 					"host": [
 						"localhost"
 					],
@@ -110,14 +112,14 @@
 					"path": [
 						"v1",
 						"users",
-						"5"
+						"0d8902b4-6aab-4870-a7c9-8adcadff1b31"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "update",
+			"name": "update user",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -152,7 +154,7 @@
 			"response": []
 		},
 		{
-			"name": "remove",
+			"name": "remove user",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -167,7 +169,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/v1/users/4",
+					"raw": "localhost:3000/v1/users/0d8902b4-6aab-4870-a7c9-8adcadff1b31",
 					"host": [
 						"localhost"
 					],
@@ -175,7 +177,172 @@
 					"path": [
 						"v1",
 						"users",
-						"4"
+						"0d8902b4-6aab-4870-a7c9-8adcadff1b31"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create group",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Users\",\r\n  \"permission\": [\"READ\", \"WRITE\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/groups",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findAll groups",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/groups",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findOne group",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/v1/groups/9125f76b-3769-4ba5-9ce0-37831c8e4156",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"groups",
+						"9125f76b-3769-4ba5-9ce0-37831c8e4156"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update groups",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"permission\": [\"READ\", \"DELETE\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/groups/9125f76b-3769-4ba5-9ce0-37831c8e4156",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"groups",
+						"9125f76b-3769-4ba5-9ce0-37831c8e4156"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove group",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/v1/groups/6456859a-fdbe-4f8b-99a9-c8edcc32cdf7f",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"groups",
+						"6456859a-fdbe-4f8b-99a9-c8edcc32cdf7f"
 					]
 				}
 			},
