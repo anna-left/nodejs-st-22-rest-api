@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { SearchUserDto } from './dto/search-user.dto';
-import { UsersRepository } from './users.repository';
-import { HTTP_RESPONS_MESSAGES } from './utils/constants';
+import { CreateUserDto } from '../data-access/create-user.dto';
+import { UpdateUserDto } from '../data-access/update-user.dto';
+import { SearchUserDto } from '../data-access/search-user.dto';
+import { UsersRepository } from '../data-access/users.repository';
+import { HTTP_RESPONS_MESSAGES } from '../../utils/constants';
+import { uuidValidate } from 'src/utils/uuidValidate';
 
 @Injectable()
 export class UsersService {
@@ -13,6 +14,11 @@ export class UsersService {
   async createUser(createUserDto: CreateUserDto) {
     const user = await this.usersRepository.findByLogin(createUserDto.login);
     if (user) {
+      if (user.isDeleted) {
+        return {
+          message: HTTP_RESPONS_MESSAGES.USER_EXISTS_DELETED,
+        };
+      }
       return {
         message: HTTP_RESPONS_MESSAGES.USER_EXISTS,
       };
@@ -27,6 +33,11 @@ export class UsersService {
   }
 
   async findOne(id: string) {
+    if (!uuidValidate(id)) {
+      return {
+        message: HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT,
+      };
+    }
     const user = await this.usersRepository.findOne(id);
     if (!user) {
       return {
@@ -37,6 +48,11 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
+    if (!uuidValidate(id)) {
+      return {
+        message: HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT,
+      };
+    }
     const user = await this.usersRepository.findOne(id);
     if (!user) {
       return {
@@ -47,7 +63,15 @@ export class UsersService {
       updateUserDto.hasOwnProperty('login') &&
       updateUserDto['login'] !== user.login
     ) {
-      if (await this.usersRepository.findByLogin(updateUserDto['login'])) {
+      const user = await this.usersRepository.findByLogin(
+        updateUserDto['login'],
+      );
+      if (user) {
+        if (user.isDeleted) {
+          return {
+            message: HTTP_RESPONS_MESSAGES.USER_EXISTS_DELETED,
+          };
+        }
         return {
           message: HTTP_RESPONS_MESSAGES.USER_EXISTS,
         };
@@ -57,6 +81,11 @@ export class UsersService {
   }
 
   async remove(id: string) {
+    if (!uuidValidate(id)) {
+      return {
+        message: HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT,
+      };
+    }
     const user = await this.usersRepository.findOne(id);
     if (!user) {
       return {

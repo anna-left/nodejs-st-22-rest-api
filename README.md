@@ -8,7 +8,6 @@
 - git checkout task-4-1
   or
 - git checkout task-4-2
-
 - npm install
 - rename .env.example file to .env
 - enter your database information into file .env

@@ -11,18 +11,17 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { SearchUserDto } from './dto/search-user.dto';
-import { User } from './users.model';
-import { HTTP_RESPONS_MESSAGES } from './utils/constants';
+import { UsersService } from '../services/users.service';
+import { CreateUserDto } from '../data-access/create-user.dto';
+import { UpdateUserDto } from '../data-access/update-user.dto';
+import { SearchUserDto } from '../data-access/search-user.dto';
+import { User } from '../models/users.model';
+import { HTTP_RESPONS_MESSAGES } from '../../utils/constants';
 
 interface IAnswer {
   message?: string;
   value?: User | [User];
 }
-
 @ApiTags('Users')
 @Controller('v1/users')
 export class UsersController {
@@ -52,8 +51,10 @@ export class UsersController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const answer = await this.usersService.findOne(id);
-    if (answer.message) {
+    if (answer.message === HTTP_RESPONS_MESSAGES.USER_NOT_FOUND) {
       throw new NotFoundException(answer.message);
+    } else if (answer.message) {
+      throw new BadRequestException(answer.message);
     }
     return answer.value;
   }
@@ -65,7 +66,7 @@ export class UsersController {
     const answer = await this.usersService.update(id, updateUserDto);
     if (answer.message === HTTP_RESPONS_MESSAGES.USER_NOT_FOUND) {
       throw new NotFoundException(answer.message);
-    } else if (answer.message === HTTP_RESPONS_MESSAGES.USER_EXISTS) {
+    } else if (answer.message) {
       throw new BadRequestException(answer.message);
     }
     return answer.value;
@@ -76,8 +77,10 @@ export class UsersController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const answer = await this.usersService.remove(id);
-    if (answer.message) {
+    if (answer.message === HTTP_RESPONS_MESSAGES.USER_NOT_FOUND) {
       throw new NotFoundException(answer.message);
+    } else if (answer.message) {
+      throw new BadRequestException(answer.message);
     }
   }
 }
