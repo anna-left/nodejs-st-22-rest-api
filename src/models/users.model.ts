@@ -1,6 +1,15 @@
-import { DataTypes } from 'sequelize';
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  AllowNull,
+  Column,
+  DataType,
+  Default,
+  IsUUID,
+  Model,
+  Table,
+  Unique,
+} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize/types';
 
 interface UserCreationAttrs {
   login: string;
@@ -14,27 +23,23 @@ export class User extends Model<User, UserCreationAttrs> {
     example: '390c2ee1-4ace-4085-809f-7b9ed9626635',
     description: 'Unique identificator',
   })
+  @IsUUID(4)
+  @Default(DataTypes.UUIDV4)
   @Column({
-    type: DataTypes.UUIDV4,
     unique: true,
-    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   })
   id: string;
 
   @ApiProperty({ example: 'John', description: 'user login' })
-  @Column({
-    type: DataType.STRING,
-    unique: true,
-    allowNull: false,
-    get() {
-      return this.getDataValue('login');
-    },
-  })
+  @AllowNull(false)
+  @Unique
+  @Column
   login: string;
 
   @ApiProperty({ example: 'secret123', description: 'password' })
-  @Column({ type: DataType.STRING, allowNull: false })
+  @AllowNull(false)
+  @Column
   password: string;
 
   @ApiProperty({ example: 23, description: 'user age' })

@@ -4,6 +4,8 @@ import {
   // BelongsToMany,
   Column,
   DataType,
+  Default,
+  IsUUID,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -24,10 +26,10 @@ export class Group extends Model<Group, GroupCreationAttrs> {
     example: '390c2ee1-4ace-4085-809f-7b9ed9626633',
     description: 'Unique identificator',
   })
+  @IsUUID(4)
+  @Default(DataTypes.UUIDV4)
   @Column({
-    type: DataTypes.UUIDV4,
     unique: true,
-    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   })
   id: string;
@@ -42,8 +44,12 @@ export class Group extends Model<Group, GroupCreationAttrs> {
 
   @ApiProperty({ example: '[READ, WRITE]', description: 'permissions' })
   @Column({
-    type: DataType.ARRAY(DataTypes.STRING),
-    allowNull: false,
+    type: DataType.ARRAY(
+      DataTypes.ENUM({
+        values: permissionsTypes,
+      }),
+    ),
+    allowNull: true,
     validate: {
       wrongPermission() {
         for (let i = 0; i < this.permission.length; i++) {
