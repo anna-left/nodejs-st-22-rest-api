@@ -8,4 +8,13 @@ const HTTP_RESPONS_MESSAGES = {
   GROUP_EXISTS: 'Group with this name already exists in the database',
 };
 
-export { HTTP_RESPONS_MESSAGES };
+enum PermissionsENUM {
+  read = 'READ',
+  write = 'WRITE',
+  delete = 'DELETE',
+  share = 'SHARE',
+  upload = 'UPLOAD_FILES',
+}
+const permissionsTypes = ['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'];
+
+export { HTTP_RESPONS_MESSAGES, PermissionsENUM, permissionsTypes };
