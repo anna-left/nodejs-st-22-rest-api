@@ -4,8 +4,6 @@ import {
   // BelongsToMany,
   Column,
   DataType,
-  Default,
-  IsUUID,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -26,12 +24,7 @@ export class Group extends Model<Group, GroupCreationAttrs> {
     example: '390c2ee1-4ace-4085-809f-7b9ed9626633',
     description: 'Unique identificator',
   })
-  @IsUUID(4)
-  @Default(DataTypes.UUIDV4)
-  @Column({
-    unique: true,
-    primaryKey: true,
-  })
+  @Column({ primaryKey: true, defaultValue: DataTypes.UUIDV4 })
   id: string;
 
   @ApiProperty({ example: 'admins', description: 'group name' })

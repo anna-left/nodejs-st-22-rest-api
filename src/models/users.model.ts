@@ -3,13 +3,13 @@ import {
   AllowNull,
   Column,
   DataType,
-  Default,
-  IsUUID,
+  // Default,
+  // IsUUID,
   Model,
   Table,
   Unique,
 } from 'sequelize-typescript';
-import { DataTypes } from 'sequelize/types';
+import { DataTypes } from 'sequelize';
 
 interface UserCreationAttrs {
   login: string;
@@ -23,12 +23,7 @@ export class User extends Model<User, UserCreationAttrs> {
     example: '390c2ee1-4ace-4085-809f-7b9ed9626635',
     description: 'Unique identificator',
   })
-  @IsUUID(4)
-  @Default(DataTypes.UUIDV4)
-  @Column({
-    unique: true,
-    primaryKey: true,
-  })
+  @Column({ primaryKey: true, defaultValue: DataTypes.UUIDV4 })
   id: string;
 
   @ApiProperty({ example: 'John', description: 'user login' })
