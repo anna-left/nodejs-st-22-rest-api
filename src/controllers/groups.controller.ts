@@ -13,6 +13,7 @@ import { CreateGroupDto } from '../data-access/groups/create-group.dto';
 import { Group } from '../models/groups.model';
 import { UpdateGroupDto } from '../data-access/groups/update-group.dto';
 import { handleResponse } from 'src/controllers/handle-response';
+import { AddUsersToGroupDto } from 'src/data-access/add-users-to-group.dto';
 
 type Answer = string | Group | [Group] | undefined;
 
@@ -61,6 +62,20 @@ export class GroupsController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const answer = await this.groupsService.remove(id);
+    return handleResponse(answer);
+  }
+
+  @ApiOperation({ summary: 'Add users to group' })
+  @ApiResponse({ status: 200, type: Group })
+  @Post(':id')
+  async addUsersToGroup(
+    @Param('id') id: string,
+    @Body() addUsersToGroupDto: AddUsersToGroupDto,
+  ) {
+    const answer = await this.groupsService.addUsersToGroup(
+      id,
+      addUsersToGroupDto,
+    );
     return handleResponse(answer);
   }
 }

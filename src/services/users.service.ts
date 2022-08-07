@@ -29,7 +29,7 @@ export class UsersService {
   }
 
   async findOne(id: string) {
-    if (!uuidValidate(id)) {
+    if (!uuidValidate([id])) {
       return HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT;
     }
     const user = await this.usersRepository.findOne(id);
@@ -40,7 +40,7 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    if (!uuidValidate(id)) {
+    if (!uuidValidate([id])) {
       return HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT;
     }
     const user = await this.usersRepository.findOne(id);
@@ -65,7 +65,7 @@ export class UsersService {
   }
 
   async remove(id: string) {
-    if (!uuidValidate(id)) {
+    if (!uuidValidate([id])) {
       return HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT;
     }
     const user = await this.usersRepository.findOne(id);

@@ -4,13 +4,6 @@ import { User } from './users.model';
 
 @Table({ tableName: 'user_groups', createdAt: false, updatedAt: false })
 export class UserGroups extends Model<UserGroups> {
-  @IsUUID(4)
-  @Column({
-    unique: true,
-    primaryKey: true,
-  })
-  id: number;
-
   @ForeignKey(() => Group)
   @IsUUID(4)
   @Column
