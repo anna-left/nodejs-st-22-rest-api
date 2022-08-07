@@ -10,7 +10,7 @@
 - rename .env.example file to .env
 - enter your database information into file .env
 - create tables in your database using script migrate
-- fillit in with predefined мфдгуыs’collection using script seed
+- fillit in with predefined values collection using script seed
 ```
 
 ## Running the app
@@ -29,7 +29,7 @@ $ npm run start
 - create user
 - update user
 - delete user
-- get auto-suggest list (or all groups) 
+- get auto-suggest list (or all users) 
 - get user by id
 - create group
 - update group
