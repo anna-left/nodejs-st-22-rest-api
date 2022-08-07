@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsArray, IsNotEmpty, IsEnum } from 'class-validator';
+import { IsString, IsArray, IsNotEmpty, IsEnum, IsUUID } from 'class-validator';
 import { PermissionsENUM, permissionsTypes } from 'src/utils/constants';
 
 export class CreateGroupDto {
   @ApiProperty({ example: 'Admins', description: 'group name' })
   @IsString()
+  @IsUUID('4')
   @IsNotEmpty()
   readonly name: string;
 
