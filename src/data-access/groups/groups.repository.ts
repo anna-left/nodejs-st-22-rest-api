@@ -62,23 +62,27 @@ export class GroupsRepository {
   }
 
   async addUsersToGroup(id: string, userIds: string[]) {
-    return await this.sequelize.transaction(async (t) => {
-      const group = await this.findOne(id, t);
-      if (!group) {
-        return group;
-      }
-      const groupUsers = await Promise.all(
-        userIds.map(async (id) => {
-          const user = await this.userModel.findOne({
-            where: { id, isDeleted: false },
-            rejectOnEmpty: true,
-            transaction: t,
-          });
-          return user;
-        }),
-      );
-      await group.$add('users', groupUsers, { transaction: t });
-      return await this.findOne(id, t);
-    }); //end transaction
+    try {
+      return await this.sequelize.transaction(async (t) => {
+        const group = await this.findOne(id, t);
+        if (!group) {
+          return group;
+        }
+        const groupUsers = await Promise.all(
+          userIds.map(async (id) => {
+            const user = await this.userModel.findOne({
+              where: { id, isDeleted: false },
+              rejectOnEmpty: true,
+              transaction: t,
+            });
+            return user;
+          }),
+        );
+        await group.$add('users', groupUsers, { transaction: t });
+        return await this.findOne(id, t);
+      }); //end transaction
+    } catch (error) {
+      return error;
+    }
   }
 }

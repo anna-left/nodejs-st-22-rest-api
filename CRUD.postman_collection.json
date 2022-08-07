@@ -62,7 +62,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/v1/users",
+					"raw": "localhost:3000/v1/users?limit=5",
 					"host": [
 						"localhost"
 					],
@@ -79,8 +79,7 @@
 						},
 						{
 							"key": "limit",
-							"value": "2",
-							"disabled": true
+							"value": "5"
 						}
 					]
 				}
@@ -104,7 +103,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/v1/users/0d8902b4-6aab-4870-a7c9-8adcadff1b31",
+					"raw": "localhost:3000/v1/users/539d1650-abf2-490c-af4a-f5c147acbd3e",
 					"host": [
 						"localhost"
 					],
@@ -112,7 +111,7 @@
 					"path": [
 						"v1",
 						"users",
-						"0d8902b4-6aab-4870-a7c9-8adcadff1b31"
+						"539d1650-abf2-490c-af4a-f5c147acbd3e"
 					]
 				}
 			},
@@ -169,7 +168,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/v1/users/0d8902b4-6aab-4870-a7c9-8adcadff1b31",
+					"raw": "localhost:3000/v1/users/377919c2-3c53-489a-97aa-cf50a1ff9bc7",
 					"host": [
 						"localhost"
 					],
@@ -177,7 +176,7 @@
 					"path": [
 						"v1",
 						"users",
-						"0d8902b4-6aab-4870-a7c9-8adcadff1b31"
+						"377919c2-3c53-489a-97aa-cf50a1ff9bc7"
 					]
 				}
 			},
@@ -269,7 +268,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/v1/groups/9125f76b-3769-4ba5-9ce0-37831c8e4156",
+					"raw": "localhost:3000/v1/groups/4565b11a-63a9-4a28-995c-7532a7e73d4e",
 					"host": [
 						"localhost"
 					],
@@ -277,7 +276,7 @@
 					"path": [
 						"v1",
 						"groups",
-						"9125f76b-3769-4ba5-9ce0-37831c8e4156"
+						"4565b11a-63a9-4a28-995c-7532a7e73d4e"
 					]
 				}
 			},
@@ -296,7 +295,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"permission\": [\"READ\", \"DELETE\"]\r\n}",
+					"raw": "{\r\n  \"permission\": [\"REdAD\", \"DELETE\"]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -304,7 +303,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/v1/groups/9125f76b-3769-4ba5-9ce0-37831c8e4156",
+					"raw": "localhost:3000/v1/groups/4565b11a-63a9-4a28-995c-7532a7e73d4e",
 					"host": [
 						"localhost"
 					],
@@ -312,7 +311,7 @@
 					"path": [
 						"v1",
 						"groups",
-						"9125f76b-3769-4ba5-9ce0-37831c8e4156"
+						"4565b11a-63a9-4a28-995c-7532a7e73d4e"
 					]
 				}
 			},
@@ -334,7 +333,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/v1/groups/6456859a-fdbe-4f8b-99a9-c8edcc32cdf7f",
+					"raw": "localhost:3000/v1/groups/4565b11a-63a9-4a28-995c-7532a7e73d4e",
 					"host": [
 						"localhost"
 					],
@@ -342,7 +341,42 @@
 					"path": [
 						"v1",
 						"groups",
-						"6456859a-fdbe-4f8b-99a9-c8edcc32cdf7f"
+						"4565b11a-63a9-4a28-995c-7532a7e73d4e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add users to group",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userIds\": [\"d4443080-e7d6-4b20-9c17-cefc68b89c78\",\"539d1650-abf2-490c-af4a-f5c147acbd3e\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/v1/groups/8ca6ed78-41c6-4ff5-b329-a5eccd0282ec",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"groups",
+						"8ca6ed78-41c6-4ff5-b329-a5eccd0282ec"
 					]
 				}
 			},

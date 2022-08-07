@@ -6,14 +6,12 @@ import {
   Matches,
   Max,
   Min,
-  IsUUID,
 } from 'class-validator';
 
 const passwordPattern = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
 export class CreateUserDto {
   @ApiProperty({ example: 'John', description: 'user login' })
   @IsString()
-  @IsUUID('4')
   @IsNotEmpty()
   readonly login: string;
 
