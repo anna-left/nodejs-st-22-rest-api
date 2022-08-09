@@ -14,13 +14,21 @@ import { Group } from '../models/groups.model';
 import { UpdateGroupDto } from '../data-access/groups/update-group.dto';
 import { handleResponse } from 'src/controllers/handle-response';
 import { AddUsersToGroupDto } from 'src/data-access/add-users-to-group.dto';
+import { MyLogger } from 'src/services/logger.service';
+// import { HttpExceptionFilter } from 'src/http-exception-filter ';
 
 type Answer = string | Group | [Group] | undefined;
 
 @ApiTags('Groups')
 @Controller('v1/groups')
 export class GroupsController {
-  constructor(private readonly groupsService: GroupsService) {}
+  constructor(
+    private readonly groupsService: GroupsService,
+    private myLogger: MyLogger, // private httpExceptionFilter: HttpExceptionFilter,
+  ) {
+    // const [req, res, next] = host.getArgs();
+    this.myLogger.setContext(GroupsService.name);
+  }
 
   @ApiOperation({ summary: 'Group creation' })
   @ApiResponse({ status: 201, type: Group })
@@ -35,6 +43,7 @@ export class GroupsController {
   @ApiResponse({ status: 200, type: [Group] })
   @Get()
   async findAll() {
+    this.myLogger.controllerLog('findAll');
     return await this.groupsService.findAll();
   }
 
