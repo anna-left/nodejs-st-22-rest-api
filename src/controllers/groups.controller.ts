@@ -6,6 +6,8 @@ import {
   Param,
   Delete,
   Put,
+  Req,
+  Res,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GroupsService } from '../services/groups.service';
@@ -15,7 +17,7 @@ import { UpdateGroupDto } from '../data-access/groups/update-group.dto';
 import { handleResponse } from 'src/controllers/handle-response';
 import { AddUsersToGroupDto } from 'src/data-access/add-users-to-group.dto';
 import { MyLogger } from 'src/services/logger.service';
-// import { HttpExceptionFilter } from 'src/http-exception-filter ';
+import { Request, Response } from 'express';
 
 type Answer = string | Group | [Group] | undefined;
 
@@ -24,9 +26,8 @@ type Answer = string | Group | [Group] | undefined;
 export class GroupsController {
   constructor(
     private readonly groupsService: GroupsService,
-    private myLogger: MyLogger, // private httpExceptionFilter: HttpExceptionFilter,
+    private myLogger: MyLogger,
   ) {
-    // const [req, res, next] = host.getArgs();
     this.myLogger.setContext(GroupsService.name);
   }
 
@@ -42,9 +43,10 @@ export class GroupsController {
   @ApiOperation({ summary: 'Get all groups' })
   @ApiResponse({ status: 200, type: [Group] })
   @Get()
-  async findAll() {
-    this.myLogger.controllerLog('findAll');
-    return await this.groupsService.findAll();
+  async findAll(@Req() request: Request, @Res() response: Response) {
+    const groups = await this.groupsService.findAll();
+    this.myLogger.customLog(request, response);
+    response.send(groups);
   }
 
   @ApiOperation({ summary: 'Get one group by id' })
