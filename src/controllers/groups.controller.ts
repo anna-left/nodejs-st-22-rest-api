@@ -15,8 +15,6 @@ import { UpdateGroupDto } from '../data-access/groups/update-group.dto';
 import { handleResponse } from 'src/controllers/handle-response';
 import { AddUsersToGroupDto } from 'src/data-access/add-users-to-group.dto';
 
-type Answer = string | Group | [Group] | undefined;
-
 @ApiTags('Groups')
 @Controller('v1/groups')
 export class GroupsController {
@@ -27,7 +25,7 @@ export class GroupsController {
   @ApiBody({ type: CreateGroupDto })
   @Post()
   async create(@Body() createGroupDto: CreateGroupDto) {
-    const answer: Answer = await this.groupsService.createGroup(createGroupDto);
+    const answer = await this.groupsService.createGroup(createGroupDto);
     return handleResponse(answer);
   }
 
