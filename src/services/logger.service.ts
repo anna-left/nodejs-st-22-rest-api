@@ -1,10 +1,9 @@
 import { Injectable, Scope, ConsoleLogger } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class MyLogger extends ConsoleLogger {
-  customLog(request?: Request, response?: Response) {
-    this.log('***** custom logger message *****');
+  customLog(request?: Request) {
     this.log(`path: ${request.path}`);
     this.log(`method: ${request.method}`);
     this.log(`hostname: ${request.hostname}`);
