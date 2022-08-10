@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Put,
+  ParseUUIDPipe,
   Req,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -53,7 +54,10 @@ export class GroupsController {
   @ApiOperation({ summary: 'Get one group by id' })
   @ApiResponse({ status: 200, type: Group })
   @Get(':id')
-  async findOne(@Param('id') id: string, @Req() request: Request) {
+  async findOne(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Req() request: Request,
+  ) {
     const answer = await this.groupsService.findOne(id);
     this.myLogger.customLog(request);
     return handleResponse(answer);
@@ -63,7 +67,7 @@ export class GroupsController {
   @ApiResponse({ status: 200, type: Group })
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateGroupDto: UpdateGroupDto,
     @Req() request: Request,
   ) {
@@ -75,7 +79,10 @@ export class GroupsController {
   @ApiOperation({ summary: 'Remove group' })
   @ApiResponse({ status: 204 })
   @Delete(':id')
-  async remove(@Param('id') id: string, @Req() request: Request) {
+  async remove(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Req() request: Request,
+  ) {
     const answer = await this.groupsService.remove(id);
     this.myLogger.customLog(request);
     return handleResponse(answer);
@@ -85,7 +92,7 @@ export class GroupsController {
   @ApiResponse({ status: 200, type: Group })
   @Post(':id')
   async addUsersToGroup(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() addUsersToGroupDto: AddUsersToGroupDto,
     @Req() request: Request,
   ) {

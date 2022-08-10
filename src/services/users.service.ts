@@ -5,7 +5,6 @@ import { UpdateUserDto } from '../data-access/users/update-user.dto';
 import { SearchUserDto } from '../data-access/users/search-user.dto';
 import { UsersRepository } from '../data-access/users/users.repository';
 import { HTTP_RESPONS_MESSAGES } from '../utils/constants';
-import { uuidValidate } from 'src/utils/uuidValidate';
 
 @Injectable()
 export class UsersService {
@@ -29,9 +28,6 @@ export class UsersService {
   }
 
   async findOne(id: string) {
-    if (!uuidValidate(id)) {
-      return HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT;
-    }
     const user = await this.usersRepository.findOne(id);
     if (!user) {
       return HTTP_RESPONS_MESSAGES.USER_NOT_FOUND;
@@ -40,9 +36,6 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    if (!uuidValidate(id)) {
-      return HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT;
-    }
     const user = await this.usersRepository.findOne(id);
     if (!user) {
       return HTTP_RESPONS_MESSAGES.USER_NOT_FOUND;
@@ -65,9 +58,6 @@ export class UsersService {
   }
 
   async remove(id: string) {
-    if (!uuidValidate(id)) {
-      return HTTP_RESPONS_MESSAGES.INVALID_UUID_FORMAT;
-    }
     const user = await this.usersRepository.findOne(id);
     if (!user) {
       return HTTP_RESPONS_MESSAGES.USER_NOT_FOUND;

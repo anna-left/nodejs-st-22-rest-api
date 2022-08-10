@@ -7,6 +7,7 @@ import {
   Query,
   Delete,
   Put,
+  ParseUUIDPipe,
   Req,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -50,7 +51,10 @@ export class UsersController {
   @ApiOperation({ summary: 'Get one user by id' })
   @ApiResponse({ status: 200, type: User })
   @Get(':id')
-  async findOne(@Param('id') id: string, @Req() request: Request) {
+  async findOne(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Req() request: Request,
+  ) {
     const answer = await this.usersService.findOne(id);
     this.myLogger.customLog(request);
     return handleResponse(answer);
@@ -60,7 +64,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateUserDto: UpdateUserDto,
     @Req() request: Request,
   ) {
@@ -72,7 +76,10 @@ export class UsersController {
   @ApiOperation({ summary: 'Remove user' })
   @ApiResponse({ status: 204 })
   @Delete(':id')
-  async remove(@Param('id') id: string, @Req() request: Request) {
+  async remove(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Req() request: Request,
+  ) {
     const answer = await this.usersService.remove(id);
     this.myLogger.customLog(request);
     return handleResponse(answer);
