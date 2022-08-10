@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import 'dotenv/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { APP_FILTER } from '@nestjs/core';
 
 import { UsersModule } from './users.module';
 import { User } from '../models/users.model';
@@ -8,6 +9,7 @@ import { GroupsModule } from './groups.module';
 import { Group } from '../models/groups.model';
 import { UserGroups } from 'src/models/user-groups.model';
 import { LoggerModule } from './logger.module';
+import { ExceptionsFilter } from 'src/services/exceptions-filter';
 
 @Module({
   imports: [
@@ -28,6 +30,11 @@ import { LoggerModule } from './logger.module';
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionsFilter,
+    },
+  ],
 })
 export class AppModule {}
