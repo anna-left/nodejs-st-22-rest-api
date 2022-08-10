@@ -11,6 +11,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request, Response } from 'express';
 import { GroupsService } from '../services/groups.service';
 import { CreateGroupDto } from '../data-access/groups/create-group.dto';
 import { Group } from '../models/groups.model';
@@ -18,7 +19,6 @@ import { UpdateGroupDto } from '../data-access/groups/update-group.dto';
 import { handleResponse } from 'src/controllers/handle-response';
 import { AddUsersToGroupDto } from 'src/data-access/add-users-to-group.dto';
 import { MyLogger } from 'src/services/logger.service';
-import { Request, Response } from 'express';
 
 @ApiTags('Groups')
 @Controller('v1/groups')
@@ -42,16 +42,15 @@ export class GroupsController {
     response.send(
       handleResponse(await this.groupsService.createGroup(createGroupDto)),
     );
-    this.myLogger.customLog(request);
+    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Get all groups' })
   @ApiResponse({ status: 200, type: [Group] })
   @Get()
-  async findAll(@Req() request: Request) {
-    const groups = await this.groupsService.findAll();
-    this.myLogger.customLog(request);
-    return groups;
+  async findAll(@Req() request: Request, @Res() response: Response) {
+    response.send(await this.groupsService.findAll());
+    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Get one group by id' })
@@ -63,7 +62,7 @@ export class GroupsController {
     @Res() response: Response,
   ) {
     response.send(handleResponse(await this.groupsService.findOne(id)));
-    this.myLogger.customLog(request);
+    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Update group' })
@@ -75,14 +74,10 @@ export class GroupsController {
     @Req() request: Request,
     @Res() response: Response,
   ) {
-    // const answer = await this.groupsService.update(id, updateGroupDto);
-    // this.myLogger.customLog(request);
-    // return handleResponse(answer);
-
     response.send(
       handleResponse(await this.groupsService.update(id, updateGroupDto)),
     );
-    this.myLogger.customLog(request);
+    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Remove group' })
@@ -94,7 +89,7 @@ export class GroupsController {
     @Res() response: Response,
   ) {
     response.send(handleResponse(await this.groupsService.remove(id)));
-    this.myLogger.customLog(request);
+    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Add users to group' })
@@ -111,6 +106,6 @@ export class GroupsController {
         await this.groupsService.addUsersToGroup(id, addUsersToGroupDto),
       ),
     );
-    this.myLogger.customLog(request);
+    this.myLogger.customLog(request, response);
   }
 }

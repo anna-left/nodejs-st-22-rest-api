@@ -12,6 +12,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request, Response } from 'express';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../data-access/users/create-user.dto';
 import { UpdateUserDto } from '../data-access/users/update-user.dto';
@@ -19,7 +20,6 @@ import { SearchUserDto } from '../data-access/users/search-user.dto';
 import { User } from '../models/users.model';
 import { handleResponse } from 'src/controllers/handle-response';
 import { MyLogger } from 'src/services/logger.service';
-import { Request, Response } from 'express';
 
 @ApiTags('Users')
 @Controller('v1/users')
