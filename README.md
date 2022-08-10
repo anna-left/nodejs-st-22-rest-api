@@ -1,18 +1,16 @@
-# Task-4-1, Task-4-2
+# nodejs-st-22-rest-api
 
 
 ## Installation
 ```
 - git clone https://github.com/anna-left/nodejs-st-22-rest-api.git
 
-- git checkout task-4-1
-  or
-- git checkout task-4-2
+- git checkout [branch name]
 - npm install
 - rename .env.example file to .env
 - enter your database information into file .env
-- create a "Users" table in your database using script migrate
-- fillit in with predefined users’collection using script seed
+- create tables in your database using script migrate
+- fillit in with predefined values collection using script seed
 ```
 
 ## Running the app
@@ -31,18 +29,19 @@ $ npm run start
 - create user
 - update user
 - delete user
-- get auto-suggest list 
+- get auto-suggest list (or all users) 
 - get user by id
+- create group
+- update group
+- delete group
+- get all groups 
+- get group by id
 
 You can use Postman collection for sending requests
 ```
 CRUD.postman_collection.json
 ```
 
-SQL script which create Users table in the DB and fillit in with predefined users'collection
-```
-createTableUsers
-```
 ## Author
 
 👤 **Anna Rybakova**

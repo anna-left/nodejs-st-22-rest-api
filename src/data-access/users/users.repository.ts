@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
+import { Group } from 'src/models/groups.model';
 
-import { User } from '../models/users.model';
+import { User } from '../../models/users.model';
 import { CreateUserDto } from './create-user.dto';
 
 @Injectable()
@@ -23,6 +24,13 @@ export class UsersRepository {
       },
       limit: !limit ? null : limit,
       order: ['login'],
+      include: [
+        {
+          model: Group,
+          required: false,
+          through: { attributes: [] },
+        },
+      ],
     });
   }
 
@@ -32,6 +40,13 @@ export class UsersRepository {
         id,
         isDeleted: false,
       },
+      include: [
+        {
+          model: Group,
+          required: false,
+          through: { attributes: [] },
+        },
+      ],
     });
   }
 
