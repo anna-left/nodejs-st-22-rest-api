@@ -9,6 +9,7 @@ import {
   Put,
   ParseUUIDPipe,
   Req,
+  Res,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from '../services/users.service';
@@ -18,7 +19,7 @@ import { SearchUserDto } from '../data-access/users/search-user.dto';
 import { User } from '../models/users.model';
 import { handleResponse } from 'src/controllers/handle-response';
 import { MyLogger } from 'src/services/logger.service';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 @ApiTags('Users')
 @Controller('v1/users')
@@ -34,18 +35,26 @@ export class UsersController {
   @ApiResponse({ status: 201, type: User })
   @ApiBody({ type: CreateUserDto })
   @Post()
-  async create(@Body() createUserDto: CreateUserDto, @Req() request: Request) {
+  async create(
+    @Body() createUserDto: CreateUserDto,
+    @Req() request: Request,
+    @Res() response: Response,
+  ) {
     const answer = await this.usersService.createUser(createUserDto);
-    this.myLogger.customLog(request);
-    return handleResponse(answer);
+    response.send(handleResponse(answer));
+    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [User] })
   @Get()
-  async findAll(@Query() query: SearchUserDto, @Req() request: Request) {
+  async findAll(
+    @Query() query: SearchUserDto,
+    @Req() request: Request,
+    @Res() response: Response,
+  ) {
+    response.send(await this.usersService.findAll(query));
     this.myLogger.customLog(request);
-    return await this.usersService.findAll(query);
   }
 
   @ApiOperation({ summary: 'Get one user by id' })
@@ -54,10 +63,10 @@ export class UsersController {
   async findOne(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Req() request: Request,
+    @Res() response: Response,
   ) {
-    const answer = await this.usersService.findOne(id);
+    response.send(handleResponse(await this.usersService.findOne(id)));
     this.myLogger.customLog(request);
-    return handleResponse(answer);
   }
 
   @ApiOperation({ summary: 'Update user' })
@@ -67,10 +76,12 @@ export class UsersController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateUserDto: UpdateUserDto,
     @Req() request: Request,
+    @Res() response: Response,
   ) {
-    const answer = await this.usersService.update(id, updateUserDto);
+    response.send(
+      handleResponse(await this.usersService.update(id, updateUserDto)),
+    );
     this.myLogger.customLog(request);
-    return handleResponse(answer);
   }
 
   @ApiOperation({ summary: 'Remove user' })
@@ -79,9 +90,13 @@ export class UsersController {
   async remove(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Req() request: Request,
+    @Res() response: Response,
   ) {
-    const answer = await this.usersService.remove(id);
+    // const answer = await this.usersService.remove(id);
+    // this.myLogger.customLog(request);
+    // return handleResponse(answer);
+
+    response.send(handleResponse(await this.usersService.remove(id)));
     this.myLogger.customLog(request);
-    return handleResponse(answer);
   }
 }
