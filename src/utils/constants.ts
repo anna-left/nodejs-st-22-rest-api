@@ -1,4 +1,4 @@
-const HTTP_RESPONS_MESSAGES = {
+const HTTP_RESPONSE_MESSAGES = {
   USER_NOT_FOUND: "User does'n exist",
   USER_EXISTS: 'User with this login already exists in the database',
   USER_EXISTS_DELETED:
@@ -16,4 +16,4 @@ enum PermissionsENUM {
 }
 const permissionsTypes = ['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'];
 
-export { HTTP_RESPONS_MESSAGES, PermissionsENUM, permissionsTypes };
+export { HTTP_RESPONSE_MESSAGES, PermissionsENUM, permissionsTypes };

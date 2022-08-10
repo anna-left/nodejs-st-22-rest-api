@@ -1,6 +1,6 @@
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { Model } from 'sequelize-typescript';
-import { HTTP_RESPONS_MESSAGES } from 'src/utils/constants';
+import { HTTP_RESPONSE_MESSAGES } from 'src/utils/constants';
 
 type Answer = string | Model | [Model];
 
@@ -16,7 +16,7 @@ export function handleResponse(answer: Answer) {
     answer.hasOwnProperty('name') &&
     answer['name'] === 'SequelizeEmptyResultError'
   ) {
-    throw new NotFoundException(HTTP_RESPONS_MESSAGES.USER_NOT_FOUND);
+    throw new NotFoundException(HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND);
   }
   return answer;
 }

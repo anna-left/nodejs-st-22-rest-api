@@ -8,6 +8,7 @@ import {
   Put,
   ParseUUIDPipe,
   Req,
+  Res,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GroupsService } from '../services/groups.service';
@@ -17,7 +18,7 @@ import { UpdateGroupDto } from '../data-access/groups/update-group.dto';
 import { handleResponse } from 'src/controllers/handle-response';
 import { AddUsersToGroupDto } from 'src/data-access/add-users-to-group.dto';
 import { MyLogger } from 'src/services/logger.service';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 @ApiTags('Groups')
 @Controller('v1/groups')
@@ -36,10 +37,12 @@ export class GroupsController {
   async create(
     @Body() createGroupDto: CreateGroupDto,
     @Req() request: Request,
+    @Res() response: Response,
   ) {
-    const answer = await this.groupsService.createGroup(createGroupDto);
+    response.send(
+      handleResponse(await this.groupsService.createGroup(createGroupDto)),
+    );
     this.myLogger.customLog(request);
-    return handleResponse(answer);
   }
 
   @ApiOperation({ summary: 'Get all groups' })
@@ -57,10 +60,10 @@ export class GroupsController {
   async findOne(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Req() request: Request,
+    @Res() response: Response,
   ) {
-    const answer = await this.groupsService.findOne(id);
+    response.send(handleResponse(await this.groupsService.findOne(id)));
     this.myLogger.customLog(request);
-    return handleResponse(answer);
   }
 
   @ApiOperation({ summary: 'Update group' })
@@ -70,10 +73,16 @@ export class GroupsController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateGroupDto: UpdateGroupDto,
     @Req() request: Request,
+    @Res() response: Response,
   ) {
-    const answer = await this.groupsService.update(id, updateGroupDto);
+    // const answer = await this.groupsService.update(id, updateGroupDto);
+    // this.myLogger.customLog(request);
+    // return handleResponse(answer);
+
+    response.send(
+      handleResponse(await this.groupsService.update(id, updateGroupDto)),
+    );
     this.myLogger.customLog(request);
-    return handleResponse(answer);
   }
 
   @ApiOperation({ summary: 'Remove group' })
@@ -82,10 +91,10 @@ export class GroupsController {
   async remove(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Req() request: Request,
+    @Res() response: Response,
   ) {
-    const answer = await this.groupsService.remove(id);
+    response.send(handleResponse(await this.groupsService.remove(id)));
     this.myLogger.customLog(request);
-    return handleResponse(answer);
   }
 
   @ApiOperation({ summary: 'Add users to group' })
@@ -95,12 +104,13 @@ export class GroupsController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() addUsersToGroupDto: AddUsersToGroupDto,
     @Req() request: Request,
+    @Res() response: Response,
   ) {
-    const answer = await this.groupsService.addUsersToGroup(
-      id,
-      addUsersToGroupDto,
+    response.send(
+      handleResponse(
+        await this.groupsService.addUsersToGroup(id, addUsersToGroupDto),
+      ),
     );
     this.myLogger.customLog(request);
-    return handleResponse(answer);
   }
 }

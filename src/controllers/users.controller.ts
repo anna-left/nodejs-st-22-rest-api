@@ -40,8 +40,9 @@ export class UsersController {
     @Req() request: Request,
     @Res() response: Response,
   ) {
-    const answer = await this.usersService.createUser(createUserDto);
-    response.send(handleResponse(answer));
+    response.send(
+      handleResponse(await this.usersService.createUser(createUserDto)),
+    );
     this.myLogger.customLog(request, response);
   }
 
@@ -54,7 +55,7 @@ export class UsersController {
     @Res() response: Response,
   ) {
     response.send(await this.usersService.findAll(query));
-    this.myLogger.customLog(request);
+    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Get one user by id' })
@@ -66,7 +67,7 @@ export class UsersController {
     @Res() response: Response,
   ) {
     response.send(handleResponse(await this.usersService.findOne(id)));
-    this.myLogger.customLog(request);
+    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Update user' })
@@ -81,7 +82,7 @@ export class UsersController {
     response.send(
       handleResponse(await this.usersService.update(id, updateUserDto)),
     );
-    this.myLogger.customLog(request);
+    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Remove user' })
@@ -92,11 +93,7 @@ export class UsersController {
     @Req() request: Request,
     @Res() response: Response,
   ) {
-    // const answer = await this.usersService.remove(id);
-    // this.myLogger.customLog(request);
-    // return handleResponse(answer);
-
     response.send(handleResponse(await this.usersService.remove(id)));
-    this.myLogger.customLog(request);
+    this.myLogger.customLog(request, response);
   }
 }
