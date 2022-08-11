@@ -19,7 +19,7 @@ import { UpdateUserDto } from '../data-access/users/update-user.dto';
 import { SearchUserDto } from '../data-access/users/search-user.dto';
 import { User } from '../models/users.model';
 import { handleResponse } from 'src/controllers/handle-response';
-import { MyLogger } from 'src/services/logger.service';
+import { MyLogger } from 'src/loggers/logger';
 
 @ApiTags('Users')
 @Controller('v1/users')

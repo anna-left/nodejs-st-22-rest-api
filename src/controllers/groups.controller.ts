@@ -18,7 +18,7 @@ import { Group } from '../models/groups.model';
 import { UpdateGroupDto } from '../data-access/groups/update-group.dto';
 import { handleResponse } from 'src/controllers/handle-response';
 import { AddUsersToGroupDto } from 'src/data-access/add-users-to-group.dto';
-import { MyLogger } from 'src/services/logger.service';
+import { MyLogger } from 'src/loggers/logger';
 
 @ApiTags('Groups')
 @Controller('v1/groups')

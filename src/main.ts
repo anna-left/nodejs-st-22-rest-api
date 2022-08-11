@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import 'dotenv/config';
 import process from 'node:process';
-import { MyLogger } from './services/logger.service';
+import { MyLogger } from './loggers/logger';
 
 async function bootstrap() {
   const PORT = process.env.PORT || 3000;

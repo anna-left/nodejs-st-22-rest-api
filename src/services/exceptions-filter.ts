@@ -6,7 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { MyLogger } from './logger.service';
+import { MyLogger } from '../loggers/logger';
 
 @Catch()
 export class ExceptionsFilter implements ExceptionFilter {
@@ -29,6 +29,7 @@ export class ExceptionsFilter implements ExceptionFilter {
     const request = ctx.getRequest();
     const responseBody = {
       statusCode: httpStatus,
+      timestamp: new Date().toISOString(),
       path: httpAdapter.getRequestUrl(request),
     };
     if (typeof exception === 'object' && exception.hasOwnProperty('message')) {
