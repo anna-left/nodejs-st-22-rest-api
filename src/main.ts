@@ -3,14 +3,24 @@ import { AppModule } from './modules/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import 'dotenv/config';
+import process from 'node:process';
 import { MyLogger } from './services/logger.service';
 
 async function bootstrap() {
   const PORT = process.env.PORT || 3000;
+  const myLogger = new MyLogger();
+  process.on('uncaughtException', (err, origin) => {
+    myLogger.customError({ uncaughtException: err, reason: origin });
+  });
+  // throw new Error('*** my test error - uncaughtException ***');
+  process.on('unhandledRejection', (reason, promise) => {
+    myLogger.customError({ UnhandledRejection: promise, reason: reason });
+  });
+  // Promise.reject('*** my test promise - unhandledRejection ***');
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
-  app.useLogger(new MyLogger());
+  app.useLogger(myLogger);
 
   const config = new DocumentBuilder()
     .setTitle('POSTGRESQL AND LAYERED ARCHITECTURE')
