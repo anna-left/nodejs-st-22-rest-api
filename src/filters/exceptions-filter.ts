@@ -33,12 +33,13 @@ export class ExceptionsFilter implements ExceptionFilter {
       path: httpAdapter.getRequestUrl(request),
     };
     if (typeof exception === 'object' && exception.hasOwnProperty('message')) {
-      responseBody['message'] = exception['message'];
+      if (exception['message']) {
+        responseBody['message'] = exception['message'];
+      }
     }
 
     httpAdapter.reply(response, responseBody, httpStatus);
-
     this.myLogger.customLog(request, response);
-    this.myLogger.customError(responseBody);
+    // this.myLogger.customWinstonError(responseBody);
   }
 }

@@ -1,10 +1,14 @@
 import { NotFoundException, BadRequestException } from '@nestjs/common';
-import { Model } from 'sequelize-typescript';
+import { Request, Response } from 'express';
 import { HTTP_RESPONSE_MESSAGES } from 'src/utils/constants';
+import { MyLogger } from 'src/loggers/logger';
 
-type Answer = string | Model | [Model];
-
-export function handleResponse(answer: Answer) {
+export function handleResponse(
+  answer: unknown,
+  request: Request,
+  response: Response,
+  myLogger: MyLogger,
+) {
   if (typeof answer === 'string') {
     if (answer.includes("does'n exist")) {
       throw new NotFoundException(answer);
@@ -18,5 +22,7 @@ export function handleResponse(answer: Answer) {
   ) {
     throw new NotFoundException(HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND);
   }
+  response.send(answer);
+  myLogger.customLog(request, response);
   return answer;
 }

@@ -9,7 +9,7 @@ import { GroupsModule } from './groups.module';
 import { Group } from '../models/groups.model';
 import { UserGroups } from 'src/models/user-groups.model';
 import { LoggerModule } from './logger.module';
-import { ExceptionsFilter } from 'src/services/exceptions-filter';
+import { ExceptionsFilter } from 'src/filters/exceptions-filter';
 
 @Module({
   imports: [

@@ -40,10 +40,12 @@ export class UsersController {
     @Req() request: Request,
     @Res() response: Response,
   ) {
-    response.send(
-      handleResponse(await this.usersService.createUser(createUserDto)),
+    return handleResponse(
+      await this.usersService.createUser(createUserDto),
+      request,
+      response,
+      this.myLogger,
     );
-    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Get all users' })
@@ -54,8 +56,12 @@ export class UsersController {
     @Req() request: Request,
     @Res() response: Response,
   ) {
-    response.send(await this.usersService.findAll(query));
-    this.myLogger.customLog(request, response);
+    return handleResponse(
+      await this.usersService.findAll(query),
+      request,
+      response,
+      this.myLogger,
+    );
   }
 
   @ApiOperation({ summary: 'Get one user by id' })
@@ -66,8 +72,13 @@ export class UsersController {
     @Req() request: Request,
     @Res() response: Response,
   ) {
-    response.send(handleResponse(await this.usersService.findOne(id)));
     this.myLogger.customLog(request, response);
+    return handleResponse(
+      await this.usersService.findOne(id),
+      request,
+      response,
+      this.myLogger,
+    );
   }
 
   @ApiOperation({ summary: 'Update user' })
@@ -79,10 +90,12 @@ export class UsersController {
     @Req() request: Request,
     @Res() response: Response,
   ) {
-    response.send(
-      handleResponse(await this.usersService.update(id, updateUserDto)),
+    return handleResponse(
+      await this.usersService.update(id, updateUserDto),
+      request,
+      response,
+      this.myLogger,
     );
-    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Remove user' })
@@ -93,7 +106,11 @@ export class UsersController {
     @Req() request: Request,
     @Res() response: Response,
   ) {
-    response.send(handleResponse(await this.usersService.remove(id)));
-    this.myLogger.customLog(request, response);
+    return handleResponse(
+      await this.usersService.remove(id),
+      request,
+      response,
+      this.myLogger,
+    );
   }
 }
