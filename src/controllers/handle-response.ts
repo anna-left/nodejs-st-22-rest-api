@@ -12,9 +12,11 @@ export function handleResponse(
   if (typeof answer === 'string') {
     if (answer.includes("does'n exist")) {
       myLogger.customLog(request, response);
+      myLogger.customError(request, response, answer);
       throw new NotFoundException(answer);
     } else {
       myLogger.customLog(request, response);
+      myLogger.customError(request, response, answer);
       throw new BadRequestException(answer);
     }
   } else if (
@@ -23,6 +25,7 @@ export function handleResponse(
     answer['name'] === 'SequelizeEmptyResultError'
   ) {
     myLogger.customLog(request, response);
+    myLogger.customError(request, response, answer);
     throw new NotFoundException(HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND);
   }
   response.send(answer);
