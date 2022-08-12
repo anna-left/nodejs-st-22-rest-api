@@ -48,4 +48,7 @@ export class MyLogger extends ConsoleLogger {
   customError(responseBody: unknown) {
     this.error(responseBody);
   }
+  customWinstonError(responseBody: unknown) {
+    this.winstonLogger.error(responseBody);
+  }
 }

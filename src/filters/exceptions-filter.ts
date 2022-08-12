@@ -39,7 +39,6 @@ export class ExceptionsFilter implements ExceptionFilter {
     }
 
     httpAdapter.reply(response, responseBody, httpStatus);
-    this.myLogger.customLog(request, response);
-    // this.myLogger.customWinstonError(responseBody);
+    this.myLogger.customWinstonError(responseBody);
   }
 }
