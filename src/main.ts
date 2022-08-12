@@ -10,11 +10,11 @@ async function bootstrap() {
   const PORT = process.env.PORT || 3000;
   const myLogger = new MyLogger();
   process.on('uncaughtException', (err, origin) => {
-    myLogger.customError({ uncaughtException: err, reason: origin });
+    console.log(`uncaughtException: ${err}, origin: ${origin}`);
   });
   // throw new Error('*** my test error - uncaughtException ***');
   process.on('unhandledRejection', (reason, promise) => {
-    myLogger.customError({ UnhandledRejection: promise, reason: reason });
+    console.log(`UnhandledRejection: ${promise}, reason: ${reason}`);
   });
   // Promise.reject('*** my test promise - unhandledRejection ***');
   const app = await NestFactory.create(AppModule, {

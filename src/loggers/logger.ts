@@ -40,7 +40,7 @@ export class MyLogger extends ConsoleLogger {
     this.log(`method: ${request.method}`);
     this.log(`params: ${JSON.stringify(request.params)}`);
     this.log(`body: ${JSON.stringify(request.body)}`);
-    if (process.env.LOG_REQUEST_RESPONSE) {
+    if (process.env.LOG_REQUEST_RESPONSE !== 'false') {
       this.log(util.inspect(request));
       this.log(util.inspect(response));
     }
