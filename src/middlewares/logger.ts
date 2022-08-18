@@ -13,7 +13,10 @@ export const winstonLogger = winston.createLogger({
       format: 'YY-MM-DD HH:mm:ss',
     }),
     winston.format.printf((info) => {
-      let format = `${info.label}  level: ${info.level}  message: ${info.message}  ${info.timestamp}  path: ${info.path}  method: ${info.method}`;
+      const path = info.path ? `  path: ${info.path}` : '';
+      const method = info.method ? `  method: ${info.method}` : '';
+      const message = info.message ? `  message: ${info.message}` : '';
+      let format = `${info.label}  level: ${info.level}  ${info.timestamp}${message}${path}${method}`;
       if (process.env.LOG_REQUEST_RESPONSE !== 'false') {
         format = format.concat(
           `request: ${util.inspect(info.request)}\nresponse: ${util.inspect(

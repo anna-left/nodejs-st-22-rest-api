@@ -7,6 +7,8 @@ import { User } from '../models/users.model';
 import { GroupsModule } from './groups.module';
 import { Group } from '../models/groups.model';
 import { UserGroups } from 'src/models/user-groups.model';
+import { APP_FILTER } from '@nestjs/core';
+import { ExceptionsFilter } from 'src/filters/exceptions-filter';
 
 @Module({
   imports: [
@@ -26,6 +28,11 @@ import { UserGroups } from 'src/models/user-groups.model';
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionsFilter,
+    },
+  ],
 })
 export class AppModule {}
