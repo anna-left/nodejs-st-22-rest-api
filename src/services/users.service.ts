@@ -4,7 +4,8 @@ import { CreateUserDto } from '../data-access/users/create-user.dto';
 import { UpdateUserDto } from '../data-access/users/update-user.dto';
 import { SearchUserDto } from '../data-access/users/search-user.dto';
 import { UsersRepository } from '../data-access/users/users.repository';
-import { HTTP_RESPONSE_MESSAGES } from '../utils/constants';
+import { HASH_SALT, HTTP_RESPONSE_MESSAGES } from '../utils/constants';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -18,7 +19,11 @@ export class UsersService {
       }
       return HTTP_RESPONSE_MESSAGES.USER_EXISTS;
     }
-    return await this.usersRepository.create(createUserDto);
+    const hashPassword = await bcrypt.hash(createUserDto.password, HASH_SALT);
+    return await this.usersRepository.create({
+      ...createUserDto,
+      password: hashPassword,
+    });
   }
 
   async findAll(params: SearchUserDto) {
@@ -58,6 +63,16 @@ export class UsersService {
         return HTTP_RESPONSE_MESSAGES.USER_EXISTS;
       }
     }
+    if (updateUserDto.hasOwnProperty('password')) {
+      const hashPassword = await bcrypt.hash(
+        updateUserDto['password'],
+        HASH_SALT,
+      );
+      const dto = { ...updateUserDto };
+      dto.password = hashPassword;
+      return await user.update(dto);
+    }
+
     return await user.update(updateUserDto);
   }
 

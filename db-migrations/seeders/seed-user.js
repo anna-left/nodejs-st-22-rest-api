@@ -1,24 +1,31 @@
 const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcrypt');
 
 module.exports = {
-  up: (queryInterface) => {
+  up: async (queryInterface) => {
+    const passwords = await Promise.all([
+      bcrypt.hash('EPAM1993', 5),
+      bcrypt.hash('Tesla2003', 5),
+      bcrypt.hash('Microsoft1975', 5),
+    ])
     return queryInterface.bulkInsert('users', [
       {
         id: uuidv4(),
         login: 'ArkadiiDobkin',
-        password: 'EPAM1993',
+        password: passwords[0],
         age: 64,
       },
       {
         id: uuidv4(),
         login: 'ElonMusk',
-        password: 'Tesla2003',
-        age: 650,
+        password: passwords[1],
+        age: 65,
+
       },
       {
         id: uuidv4(),
         login: 'BillGates',
-        password: 'Microsoft1975',
+        password: passwords[2],
         age: 67,
       },
     ]);

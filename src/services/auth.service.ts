@@ -7,7 +7,7 @@ import {
 import { UsersService } from './users.service';
 import * as bcrypt from 'bcryptjs';
 import { User } from 'src/models/users.model';
-import { HTTP_RESPONSE_MESSAGES } from 'src/utils/constants';
+import { HASH_SALT, HTTP_RESPONSE_MESSAGES } from 'src/utils/constants';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   async registration(createUserDto: CreateUserDto) {
-    const hashPassword = await bcrypt.hash(createUserDto.password, 5);
+    const hashPassword = await bcrypt.hash(createUserDto.password, HASH_SALT);
     const user = await this.usersService.createUser({
       ...createUserDto,
       password: hashPassword,
@@ -44,12 +44,16 @@ export class AuthService {
   }
 
   private async generateToken(user: User) {
-    const payLoad = { login: user.login, id: user.id, groups: user.groups };
+    const payLoad = { login: user.login, id: user.id };
     return this.jwtService.sign(payLoad);
   }
 
   private async validateUser(userDto: LoginUserDto) {
     const user = await this.usersService.findByLogin(userDto.login);
+    if (!user) {
+      return HTTP_RESPONSE_MESSAGES.WRONG_LOGIN_PASSWORD;
+    }
+
     const passwordIsCorrect = await bcrypt.compare(
       userDto.password,
       user.password,

@@ -17,6 +17,9 @@ enum PermissionsENUM {
   share = 'SHARE',
   upload = 'UPLOAD_FILES',
 }
+
 const permissionsTypes = ['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'];
 
-export { HTTP_RESPONSE_MESSAGES, PermissionsENUM, permissionsTypes };
+const HASH_SALT = 5;
+
+export { HTTP_RESPONSE_MESSAGES, PermissionsENUM, permissionsTypes, HASH_SALT };
