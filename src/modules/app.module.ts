@@ -9,11 +9,13 @@ import { Group } from '../models/groups.model';
 import { UserGroups } from 'src/models/user-groups.model';
 import { APP_FILTER } from '@nestjs/core';
 import { ExceptionsFilter } from 'src/filters/exceptions-filter';
+import { AuthModule } from 'src/modules/auth.module';
 
 @Module({
   imports: [
     UsersModule,
     GroupsModule,
+    AuthModule,
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.DB_HOST,

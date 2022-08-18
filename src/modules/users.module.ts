@@ -11,5 +11,6 @@ import { UserGroups } from 'src/models/user-groups.model';
   controllers: [UsersController],
   providers: [UsersService, UsersRepository],
   imports: [SequelizeModule.forFeature([User, Group, UserGroups])],
+  exports: [UsersService],
 })
 export class UsersModule {}
