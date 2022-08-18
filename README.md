@@ -9,6 +9,10 @@
 - npm install
 - rename .env.example file to .env
 - enter your database information into file .env
+
+set variable value  .env.LOG_REQUEST_RESPONSE=false
+if you don't want to log request and response
+
 - create tables in your database using script migrate
 - fillit in with predefined values collection using script seed
 ```
