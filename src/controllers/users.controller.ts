@@ -19,17 +19,11 @@ import { UpdateUserDto } from '../data-access/users/update-user.dto';
 import { SearchUserDto } from '../data-access/users/search-user.dto';
 import { User } from '../models/users.model';
 import { handleResponse } from 'src/controllers/handle-response';
-import { MyLogger } from 'src/services/logger.service';
 
 @ApiTags('Users')
 @Controller('v1/users')
 export class UsersController {
-  constructor(
-    private readonly usersService: UsersService,
-    private myLogger: MyLogger,
-  ) {
-    this.myLogger.setContext(UsersController.name);
-  }
+  constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({ summary: 'User creation' })
   @ApiResponse({ status: 201, type: User })
@@ -43,7 +37,6 @@ export class UsersController {
     response.send(
       handleResponse(await this.usersService.createUser(createUserDto)),
     );
-    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Get all users' })
@@ -55,7 +48,6 @@ export class UsersController {
     @Res() response: Response,
   ) {
     response.send(await this.usersService.findAll(query));
-    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Get one user by id' })
@@ -67,7 +59,6 @@ export class UsersController {
     @Res() response: Response,
   ) {
     response.send(handleResponse(await this.usersService.findOne(id)));
-    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Update user' })
@@ -82,7 +73,6 @@ export class UsersController {
     response.send(
       handleResponse(await this.usersService.update(id, updateUserDto)),
     );
-    this.myLogger.customLog(request, response);
   }
 
   @ApiOperation({ summary: 'Remove user' })
@@ -94,6 +84,5 @@ export class UsersController {
     @Res() response: Response,
   ) {
     response.send(handleResponse(await this.usersService.remove(id)));
-    this.myLogger.customLog(request, response);
   }
 }

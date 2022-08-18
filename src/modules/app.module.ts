@@ -7,13 +7,11 @@ import { User } from '../models/users.model';
 import { GroupsModule } from './groups.module';
 import { Group } from '../models/groups.model';
 import { UserGroups } from 'src/models/user-groups.model';
-import { LoggerModule } from './logger.module';
 
 @Module({
   imports: [
     UsersModule,
     GroupsModule,
-    LoggerModule,
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.DB_HOST,

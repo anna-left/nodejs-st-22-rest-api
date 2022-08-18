@@ -3,14 +3,14 @@ import { AppModule } from './modules/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import 'dotenv/config';
-import { MyLogger } from './services/logger.service';
+import { myLogger } from './middlewares/logger';
 
 async function bootstrap() {
   const PORT = process.env.PORT || 3000;
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
-  app.useLogger(new MyLogger());
+  app.use(myLogger);
 
   const config = new DocumentBuilder()
     .setTitle('POSTGRESQL AND LAYERED ARCHITECTURE')
