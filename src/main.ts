@@ -3,7 +3,7 @@ import { AppModule } from './modules/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import 'dotenv/config';
-import { myLogger } from './middlewares/logger';
+import { myLogger, winstonLogger } from './middlewares/logger';
 import { HandleRespInterceptor } from './interceptors/handle-resp.interceptor';
 
 async function bootstrap() {
@@ -12,6 +12,25 @@ async function bootstrap() {
     bufferLogs: true,
   });
   app.use(myLogger);
+
+  process.on('uncaughtException', (error, origin) => {
+    winstonLogger.log({
+      level: 'error',
+      message: `uncaughtException: ${error.message}, origin: ${origin}`,
+      error,
+    });
+    process.exit();
+  });
+  //throw new Error('my test error - uncaughtException');
+
+  process.on('unhandledRejection', (reason, promise) => {
+    winstonLogger.log({
+      level: 'error',
+      message: `UnhandledRejection: ${promise}, reason: ${reason}`,
+    });
+    process.exit();
+  });
+  //Promise.reject('my test promise - unhandledRejection');
 
   const config = new DocumentBuilder()
     .setTitle('POSTGRESQL AND LAYERED ARCHITECTURE')
