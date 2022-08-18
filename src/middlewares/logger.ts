@@ -14,9 +14,24 @@ export const winstonLogger = winston.createLogger({
     }),
     winston.format.printf((info) => {
       const path = info.path ? `  path: ${info.path}` : '';
-      const method = info.method ? `  method: ${info.method}` : '';
+      let method = info.method ? `  method: ${info.method}` : '';
       const message = info.message ? `  message: ${info.message}` : '';
-      let format = `${info.label}  level: ${info.level}  ${info.timestamp}${message}${path}${method}`;
+      const controller = info.controllerName
+        ? `  controller: ${info.controllerName}`
+        : '';
+      let params = '';
+      try {
+        params = info.request.params
+          ? `  params: ${JSON.stringify(info.request.params)}`
+          : '';
+      } catch (error) {}
+      try {
+        method = info.request.method
+          ? `  method: ${JSON.stringify(info.request.method)}`
+          : '';
+      } catch (error) {}
+
+      let format = `${info.label}  level: ${info.level}  ${info.timestamp}${path}${controller}${method}${params}${message}`;
       if (process.env.LOG_REQUEST_RESPONSE !== 'false') {
         format = format.concat(
           `request: ${util.inspect(info.request)}\nresponse: ${util.inspect(
