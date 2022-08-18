@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 
 const passwordPattern = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
-export class CreateUserDto {
+export class LoginUserDto {
   @ApiProperty({ example: 'John', description: 'user login' })
   @IsString()
   @IsNotEmpty()
@@ -23,7 +23,8 @@ export class CreateUserDto {
       'The password must consist of letters and numbers (least 1 number and 1 character)',
   })
   readonly password: string;
-
+}
+export class CreateUserDto extends LoginUserDto {
   @ApiProperty({ example: 23, description: 'user age' })
   @IsNumber()
   @Min(4)

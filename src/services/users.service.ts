@@ -35,6 +35,10 @@ export class UsersService {
     return user;
   }
 
+  async findByLogin(login: string) {
+    return await this.usersRepository.findByLogin(login);
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.usersRepository.findOne(id);
     if (!user) {

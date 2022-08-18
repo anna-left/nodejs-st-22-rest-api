@@ -54,7 +54,15 @@ export class UsersRepository {
     return await this.userModel.findOne({
       where: {
         login,
+        isDeleted: false,
       },
+      include: [
+        {
+          model: Group,
+          required: false,
+          through: { attributes: [] },
+        },
+      ],
     });
   }
 }
