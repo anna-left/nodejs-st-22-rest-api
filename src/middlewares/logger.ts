@@ -18,17 +18,11 @@ export function myLogger(
         format: 'YY-MM-DD HH:mm:ss',
       }),
       winston.format.printf((info) => {
-        let format = `${info.label}  level: ${info.level}  ${
-          info.timestamp
-        }  path: ${info.path}  method: ${
-          info.method
-        } \nparams: ${JSON.stringify(request.params)} \nbody: ${JSON.stringify(
-          request.body,
-        )}`;
+        let format = `${info.label}  level: ${info.level}  ${info.timestamp}  path: ${info.path}  method: ${info.method}`;
         if (process.env.LOG_REQUEST_RESPONSE !== 'false') {
           format = format.concat(
-            `request: ${util.inspect(request)}\nresponse: ${util.inspect(
-              response,
+            `request: ${util.inspect(info.request)}\nresponse: ${util.inspect(
+              info.response,
             )}`,
           );
         }
@@ -49,8 +43,6 @@ export function myLogger(
     message: 'info',
     path: request.path,
     method: request.method,
-    params: JSON.stringify(request.params),
-    body: JSON.stringify(request.body),
     request: util.inspect(request),
     response: util.inspect(response),
   });

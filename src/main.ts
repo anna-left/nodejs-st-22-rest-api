@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import 'dotenv/config';
 import { myLogger } from './middlewares/logger';
+import { HandleRespInterceptor } from './interceptors/handle-resp.interceptor';
 
 async function bootstrap() {
   const PORT = process.env.PORT || 3000;
@@ -26,6 +27,8 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  app.useGlobalInterceptors(new HandleRespInterceptor());
+
   await app.listen(PORT, () => console.log(`Server started on port = ${PORT}`));
 }
 bootstrap();
