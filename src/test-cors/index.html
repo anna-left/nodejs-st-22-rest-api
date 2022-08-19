@@ -12,18 +12,26 @@
     <p id="data"></p>
     <script>
       const path = 'http://localhost:3000/v1/users';
-      fetch(path)
+      const pathEl = document.getElementById('path');
+      pathEl.innerText = path;
+      const dataEl = document.getElementById('data');
+      
+      const headers = {
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6IkFya2FkaWlEb2JraW4iLCJpZCI6IjliNDc1OTQzLWJmNmMtNDJhYi1iNjg5LTc2ZjBlOTE4MDJiMyIsImlhdCI6MTY2MDkwNzE1NiwiZXhwIjoxNjYwOTkzNTU2fQ.tHqZKCHuTu0-Y43HiaFX2TAI9Mh5XSSk-Yf_nWYZLXk'
+      };
+      fetch(path, {method: 'GET', headers})
         .then((response) => {
+          console.log(response);
           return response.json();
         })
         .then((data) => {
           const objResponse = JSON.stringify(data, null, 4);
           console.log(objResponse);
-
-          const pathEl = document.getElementById('path');
-          pathEl.innerText = path;
-          const dataEl = document.getElementById('data');
           dataEl.innerText = objResponse;
+        })
+        .catch((err) => {
+          console.log(err);
+          dataEl.innerText = err;
         });
     </script>
   </body>
