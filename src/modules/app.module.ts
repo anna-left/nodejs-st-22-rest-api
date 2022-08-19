@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import 'dotenv/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 
@@ -10,6 +10,9 @@ import { UserGroups } from 'src/models/user-groups.model';
 import { APP_FILTER } from '@nestjs/core';
 import { ExceptionsFilter } from 'src/filters/exceptions-filter';
 import { AuthModule } from 'src/modules/auth.module';
+import { GroupsController } from 'src/controllers/groups.controller';
+import { UsersController } from 'src/controllers/users.controller';
+import { AuthMiddleware } from 'src/middlewares/auth.middleware';
 
 @Module({
   imports: [
@@ -37,4 +40,11 @@ import { AuthModule } from 'src/modules/auth.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude({ path: 'v1/users', method: RequestMethod.POST })
+      .forRoutes(UsersController, GroupsController);
+  }
+}
