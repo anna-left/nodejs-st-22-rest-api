@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test CORS</title>
+  </head>
+  <body>
+    <h1>Test CORS</h1>
+    <h2 id="path"></h2>
+    <p id="data"></p>
+    <script>
+      const path = 'http://localhost:3000/v1/users';
+      fetch(path)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          const objResponse = JSON.stringify(data, null, 4);
+          console.log(objResponse);
+
+          const pathEl = document.getElementById('path');
+          pathEl.innerText = path;
+          const dataEl = document.getElementById('data');
+          dataEl.innerText = objResponse;
+        });
+    </script>
+  </body>
+</html>
