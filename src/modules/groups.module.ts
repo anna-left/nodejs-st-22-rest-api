@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
+
 import { GroupsService } from '../services/groups.service';
 import { GroupsController } from '../controllers/groups.controller';
 import { Group } from '../models/groups.model';
 import { GroupsRepository } from '../data-access/groups/groups.repository';
-import { User } from 'src/models/users.model';
-import { UserGroups } from 'src/models/user-groups.model';
+import { User } from '../models/users.model';
+import { UserGroups } from '../models/user-groups.model';
 
 @Module({
   controllers: [GroupsController],

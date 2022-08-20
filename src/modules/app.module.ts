@@ -6,13 +6,13 @@ import { UsersModule } from './users.module';
 import { User } from '../models/users.model';
 import { GroupsModule } from './groups.module';
 import { Group } from '../models/groups.model';
-import { UserGroups } from 'src/models/user-groups.model';
+import { UserGroups } from '../models/user-groups.model';
 import { APP_FILTER } from '@nestjs/core';
-import { ExceptionsFilter } from 'src/filters/exceptions-filter';
-import { AuthModule } from 'src/modules/auth.module';
-import { GroupsController } from 'src/controllers/groups.controller';
-import { UsersController } from 'src/controllers/users.controller';
-import { AuthMiddleware } from 'src/middlewares/auth.middleware';
+import { ExceptionsFilter } from '../filters/exceptions-filter';
+import { AuthModule } from '../modules/auth.module';
+import { GroupsController } from '../controllers/groups.controller';
+import { UsersController } from '../controllers/users.controller';
+import { AuthMiddleware } from '../middlewares/auth.middleware';
 
 @Module({
   imports: [

@@ -3,11 +3,11 @@ import { JwtService } from '@nestjs/jwt';
 import {
   CreateUserDto,
   LoginUserDto,
-} from 'src/data-access/users/create-user.dto';
+} from '../data-access/users/create-user.dto';
 import { UsersService } from './users.service';
 import * as bcrypt from 'bcryptjs';
-import { User } from 'src/models/users.model';
-import { HASH_SALT, HTTP_RESPONSE_MESSAGES } from 'src/utils/constants';
+import { User } from '../models/users.model';
+import { HASH_SALT, HTTP_RESPONSE_MESSAGES } from '../utils/constants';
 
 @Injectable()
 export class AuthService {

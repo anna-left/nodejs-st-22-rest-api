@@ -6,7 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { winstonLogger } from 'src/middlewares/logger';
+import { winstonLogger } from '../middlewares/logger';
 
 @Catch()
 export class ExceptionsFilter implements ExceptionFilter {

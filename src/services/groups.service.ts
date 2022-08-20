@@ -4,7 +4,7 @@ import { CreateGroupDto } from '../data-access/groups/create-group.dto';
 import { UpdateGroupDto } from '../data-access/groups/update-group.dto';
 import { GroupsRepository } from '../data-access/groups/groups.repository';
 import { HTTP_RESPONSE_MESSAGES } from '../utils/constants';
-import { AddUsersToGroupDto } from 'src/data-access/add-users-to-group.dto';
+import { AddUsersToGroupDto } from '../data-access/add-users-to-group.dto';
 
 @Injectable()
 export class GroupsService {

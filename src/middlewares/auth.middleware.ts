@@ -1,10 +1,10 @@
 import { NestMiddleware, Injectable } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import 'dotenv/config';
-import { UsersService } from 'src/services/users.service';
+import { UsersService } from '../services/users.service';
 import * as jwt from 'jsonwebtoken';
 import 'dotenv/config';
-import { HTTP_RESPONSE_MESSAGES } from 'src/utils/constants';
+import { HTTP_RESPONSE_MESSAGES } from '../utils/constants';
 import { winstonLogger } from './logger';
 
 @Injectable()
