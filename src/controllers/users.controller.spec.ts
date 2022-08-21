@@ -1,6 +1,5 @@
 //https://nishabe.medium.com/unit-testing-a-nestjs-app-in-shortest-steps-bbe83da6408
 import { Test, TestingModule } from '@nestjs/testing';
-import * as bcrypt from 'bcryptjs';
 
 import { UsersController } from './users.controller';
 import { UsersService } from '../services/users.service';
@@ -8,8 +7,7 @@ import { CreateUserDto } from '../data-access/users/create-user.dto';
 import { SearchUserDto } from '../data-access/users/search-user.dto';
 import * as mockData from '../utils/mockData';
 import { HTTP_RESPONSE_MESSAGES } from '../utils/constants';
-
-const mockDB = [];
+import { UpdateUserDto } from '../data-access/users/update-user.dto';
 
 describe('UsersController', () => {
   let usersController: UsersController;
@@ -19,18 +17,18 @@ describe('UsersController', () => {
       provide: UsersService,
       useFactory: () => ({
         createUser: jest.fn((createUserDto: CreateUserDto) => {
-          const user = mockDB.find(
+          const user = mockData.mockDB.find(
             (user) => user.login === createUserDto.login && !user.isDeleted,
           );
           if (user) {
             return HTTP_RESPONSE_MESSAGES.USER_EXISTS;
           }
           const newUser = mockData.getUserFromDto(createUserDto);
-          mockDB.push(newUser);
+          mockData.mockDB.push(newUser);
           return newUser;
         }),
         findAll: jest.fn((searchUserDto: SearchUserDto) => {
-          return mockDB
+          return mockData.mockDB
             .filter(
               (user) =>
                 !user.isDeleted &&
@@ -41,6 +39,52 @@ describe('UsersController', () => {
             .sort(getFunctionCompare('login'))
             .slice(0, Number(searchUserDto.limit));
         }),
+        findOne(id: string) {
+          const user = mockData.mockDB.find(
+            (user) => user.id === id && !user.isDeleted,
+          );
+          if (!user) {
+            return HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND;
+          }
+          return user;
+        },
+        update(id: string, updateUserDto: UpdateUserDto) {
+          const user = mockData.mockDB.find(
+            (user) => user.id === id && !user.isDeleted,
+          );
+          if (!user) {
+            return HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND;
+          }
+          if (
+            updateUserDto.hasOwnProperty('login') &&
+            updateUserDto['login'] !== user.login
+          ) {
+            const user = mockData.mockDB.find(
+              (user) => user.id === updateUserDto['login'] && !user.isDeleted,
+            );
+            if (user) {
+              return HTTP_RESPONSE_MESSAGES.USER_EXISTS;
+            }
+          }
+          const updateUser = {
+            ...user,
+            login: updateUserDto.login || user.login,
+            age: updateUserDto.age || user.age,
+            password: updateUserDto.password || user.password,
+          };
+          const foundIndex = mockData.mockDB.findIndex((item) => item.id == id);
+          mockData.mockDB[foundIndex] = updateUser;
+          return updateUser;
+        },
+        remove(id: string) {
+          const user = mockData.mockDB.find(
+            (user) => user.id === id && !user.isDeleted,
+          );
+          if (!user) {
+            return HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND;
+          }
+          user.isDeleted = true;
+        },
       }),
     };
 
@@ -87,6 +131,71 @@ describe('UsersController', () => {
       });
       expect(Array.isArray(res)).toBe(true);
       expect(res.length).toBe(2);
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return empty array', async () => {
+      const res = await usersController.findAll({
+        loginSubstring: 'Tom',
+        limit: '2',
+      });
+      expect(Array.isArray(res)).toBe(true);
+      expect(res.length).toBe(0);
+    });
+  });
+
+  describe('findOne', () => {
+    it('should find user by id', async () => {
+      const res = await usersController.findOne(mockData.mockDB[0].id);
+      expect(typeof res).toBe('object');
+      if (typeof res === 'object') {
+        expect(res['id']).toBe(mockData.mockDB[0].id);
+      }
+    });
+  });
+
+  describe('findOne', () => {
+    it('should return exception "User does not exist"', async () => {
+      const res = await usersController.findOne(mockData.RandomID);
+      expect(res).toBe(HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND);
+    });
+  });
+
+  describe('update', () => {
+    it('should update user', async () => {
+      const res = await usersController.update(mockData.mockDB[0].id, {
+        password: 'myNewPassword',
+      });
+      expect(typeof res).toBe('object');
+      if (typeof res === 'object') {
+        expect(res['password']).toBe('myNewPassword');
+      }
+    });
+  });
+
+  describe('update', () => {
+    it('should return exception "User does not exist"', async () => {
+      const res = await usersController.update(mockData.RandomID, {
+        password: 'myNewPassword',
+      });
+      expect(res).toBe(HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND);
+    });
+  });
+
+  describe('remove', () => {
+    it('should remove user', async () => {
+      const id = mockData.mockDB[0].id;
+      await usersController.remove(id);
+      const res = await usersController.findOne(id);
+      expect(res).toBe(HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND);
+    });
+  });
+
+  describe('remove', () => {
+    it('should return exception "User does not exist"', async () => {
+      const res = await usersController.remove(mockData.mockDB[0].id);
+      expect(res).toBe(HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND);
     });
   });
 });
