@@ -60,7 +60,8 @@ describe('UsersController', () => {
             updateUserDto['login'] !== user.login
           ) {
             const user = mockData.mockUsersArr.find(
-              (user) => user.id === updateUserDto['login'] && !user.isDeleted,
+              (user) =>
+                user.login === updateUserDto['login'] && !user.isDeleted,
             );
             if (user) {
               return HTTP_RESPONSE_MESSAGES.USER_EXISTS;
@@ -99,7 +100,7 @@ describe('UsersController', () => {
   });
 
   describe('create', () => {
-    it('should create the first user', async () => {
+    it('should create a new user', async () => {
       const res = (await usersController.create(
         mockData.firstMockCreateUserDto,
       )) as mockData.IUser;
@@ -108,7 +109,7 @@ describe('UsersController', () => {
   });
 
   describe('create', () => {
-    it('should create the second user', async () => {
+    it('should create another user', async () => {
       const res = (await usersController.create(
         mockData.secondMockCreateUserDto,
       )) as mockData.IUser;
@@ -117,7 +118,7 @@ describe('UsersController', () => {
   });
 
   describe('create', () => {
-    it('should return exception "User with this login already exists in the database"', async () => {
+    it(`should return exception - ${HTTP_RESPONSE_MESSAGES.USER_EXISTS}`, async () => {
       const res = (await usersController.create(
         mockData.secondMockCreateUserDto,
       )) as mockData.IUser;
@@ -158,7 +159,7 @@ describe('UsersController', () => {
   });
 
   describe('findOne', () => {
-    it('should return exception "User does not exist"', async () => {
+    it(`should return exception - ${HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND}`, async () => {
       const res = await usersController.findOne(mockData.RandomID);
       expect(res).toBe(HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND);
     });
@@ -177,7 +178,7 @@ describe('UsersController', () => {
   });
 
   describe('update', () => {
-    it('should return exception "User does not exist"', async () => {
+    it(`should return exception ${HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND}`, async () => {
       const res = await usersController.update(mockData.RandomID, {
         password: 'myNewPassword',
       });
@@ -195,8 +196,8 @@ describe('UsersController', () => {
   });
 
   describe('remove', () => {
-    it('should return exception "User does not exist"', async () => {
-      const res = await usersController.remove(mockData.mockUsersArr[0].id);
+    it(`should return exception ${HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND}`, async () => {
+      const res = await usersController.remove(mockData.RandomID);
       expect(res).toBe(HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND);
     });
   });
