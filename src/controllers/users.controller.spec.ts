@@ -17,18 +17,18 @@ describe('UsersController', () => {
       provide: UsersService,
       useFactory: () => ({
         createUser: jest.fn((createUserDto: CreateUserDto) => {
-          const user = mockData.mockDB.find(
+          const user = mockData.mockUsersArr.find(
             (user) => user.login === createUserDto.login && !user.isDeleted,
           );
           if (user) {
             return HTTP_RESPONSE_MESSAGES.USER_EXISTS;
           }
           const newUser = mockData.getUserFromDto(createUserDto);
-          mockData.mockDB.push(newUser);
+          mockData.mockUsersArr.push(newUser);
           return newUser;
         }),
         findAll: jest.fn((searchUserDto: SearchUserDto) => {
-          return mockData.mockDB
+          return mockData.mockUsersArr
             .filter(
               (user) =>
                 !user.isDeleted &&
@@ -40,7 +40,7 @@ describe('UsersController', () => {
             .slice(0, Number(searchUserDto.limit));
         }),
         findOne(id: string) {
-          const user = mockData.mockDB.find(
+          const user = mockData.mockUsersArr.find(
             (user) => user.id === id && !user.isDeleted,
           );
           if (!user) {
@@ -49,7 +49,7 @@ describe('UsersController', () => {
           return user;
         },
         update(id: string, updateUserDto: UpdateUserDto) {
-          const user = mockData.mockDB.find(
+          const user = mockData.mockUsersArr.find(
             (user) => user.id === id && !user.isDeleted,
           );
           if (!user) {
@@ -59,7 +59,7 @@ describe('UsersController', () => {
             updateUserDto.hasOwnProperty('login') &&
             updateUserDto['login'] !== user.login
           ) {
-            const user = mockData.mockDB.find(
+            const user = mockData.mockUsersArr.find(
               (user) => user.id === updateUserDto['login'] && !user.isDeleted,
             );
             if (user) {
@@ -72,12 +72,14 @@ describe('UsersController', () => {
             age: updateUserDto.age || user.age,
             password: updateUserDto.password || user.password,
           };
-          const foundIndex = mockData.mockDB.findIndex((item) => item.id == id);
-          mockData.mockDB[foundIndex] = updateUser;
+          const foundIndex = mockData.mockUsersArr.findIndex(
+            (item) => item.id == id,
+          );
+          mockData.mockUsersArr[foundIndex] = updateUser;
           return updateUser;
         },
         remove(id: string) {
-          const user = mockData.mockDB.find(
+          const user = mockData.mockUsersArr.find(
             (user) => user.id === id && !user.isDeleted,
           );
           if (!user) {
@@ -147,10 +149,10 @@ describe('UsersController', () => {
 
   describe('findOne', () => {
     it('should find user by id', async () => {
-      const res = await usersController.findOne(mockData.mockDB[0].id);
+      const res = await usersController.findOne(mockData.mockUsersArr[0].id);
       expect(typeof res).toBe('object');
       if (typeof res === 'object') {
-        expect(res['id']).toBe(mockData.mockDB[0].id);
+        expect(res['id']).toBe(mockData.mockUsersArr[0].id);
       }
     });
   });
@@ -164,7 +166,7 @@ describe('UsersController', () => {
 
   describe('update', () => {
     it('should update user', async () => {
-      const res = await usersController.update(mockData.mockDB[0].id, {
+      const res = await usersController.update(mockData.mockUsersArr[0].id, {
         password: 'myNewPassword',
       });
       expect(typeof res).toBe('object');
@@ -185,7 +187,7 @@ describe('UsersController', () => {
 
   describe('remove', () => {
     it('should remove user', async () => {
-      const id = mockData.mockDB[0].id;
+      const id = mockData.mockUsersArr[0].id;
       await usersController.remove(id);
       const res = await usersController.findOne(id);
       expect(res).toBe(HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND);
@@ -194,7 +196,7 @@ describe('UsersController', () => {
 
   describe('remove', () => {
     it('should return exception "User does not exist"', async () => {
-      const res = await usersController.remove(mockData.mockDB[0].id);
+      const res = await usersController.remove(mockData.mockUsersArr[0].id);
       expect(res).toBe(HTTP_RESPONSE_MESSAGES.USER_NOT_FOUND);
     });
   });

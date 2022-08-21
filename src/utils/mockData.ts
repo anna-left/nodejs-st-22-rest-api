@@ -1,7 +1,7 @@
 import { CreateUserDto } from 'src/data-access/users/create-user.dto';
 import { v4 as uuidv4 } from 'uuid';
 
-const mockDB = [
+export const mockUsersArr = [
   {
     id: uuidv4(),
     isDeleted: false,
@@ -11,24 +11,24 @@ const mockDB = [
   },
 ];
 
-const firstMockCreateUserDto: CreateUserDto = {
+export const firstMockCreateUserDto: CreateUserDto = {
   login: 'Bradley Cooper',
   password: 'BradSecret',
   age: 47,
 };
 
-const secondMockCreateUserDto: CreateUserDto = {
+export const secondMockCreateUserDto: CreateUserDto = {
   login: 'Robert Downey Jr.',
   password: 'RobSecret',
   age: 26,
 };
 
-const firstMockUser: IUser = getUserFromDto(firstMockCreateUserDto);
-const secondMockUser: IUser = getUserFromDto(secondMockCreateUserDto);
+export const firstMockUser: IUser = getUserFromDto(firstMockCreateUserDto);
+export const secondMockUser: IUser = getUserFromDto(secondMockCreateUserDto);
 
-const RandomID = uuidv4();
+export const RandomID = uuidv4();
 
-function getUserFromDto(createUserDto: CreateUserDto) {
+export function getUserFromDto(createUserDto: CreateUserDto) {
   return {
     id: uuidv4(),
     isDeleted: false,
@@ -36,21 +36,10 @@ function getUserFromDto(createUserDto: CreateUserDto) {
   };
 }
 
-interface IUser {
+export interface IUser {
   id: string;
   login: string;
   password: string;
   age: number;
   isDeleted: boolean;
 }
-
-export {
-  firstMockCreateUserDto,
-  secondMockCreateUserDto,
-  firstMockUser,
-  secondMockUser,
-  IUser,
-  getUserFromDto,
-  mockDB,
-  RandomID,
-};
