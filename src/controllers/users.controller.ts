@@ -15,7 +15,6 @@ import { CreateUserDto } from '../data-access/users/create-user.dto';
 import { UpdateUserDto } from '../data-access/users/update-user.dto';
 import { SearchUserDto } from '../data-access/users/search-user.dto';
 import { User } from '../models/users.model';
-import { handleResponse } from 'src/controllers/handle-response';
 
 @ApiTags('Users')
 @Controller('v1/users')
@@ -27,8 +26,7 @@ export class UsersController {
   @ApiBody({ type: CreateUserDto })
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    const answer = await this.usersService.createUser(createUserDto);
-    return handleResponse(answer);
+    return await this.usersService.createUser(createUserDto);
   }
 
   @ApiOperation({ summary: 'Get all users' })
@@ -42,8 +40,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @Get(':id')
   async findOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const answer = await this.usersService.findOne(id);
-    return handleResponse(answer);
+    return await this.usersService.findOne(id);
   }
 
   @ApiOperation({ summary: 'Update user' })
@@ -53,15 +50,12 @@ export class UsersController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    const answer = await this.usersService.update(id, updateUserDto);
-    return handleResponse(answer);
+    return await this.usersService.update(id, updateUserDto);
   }
-
   @ApiOperation({ summary: 'Remove user' })
   @ApiResponse({ status: 204 })
   @Delete(':id')
   async remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const answer = await this.usersService.remove(id);
-    return handleResponse(answer);
+    return await this.usersService.remove(id);
   }
 }

@@ -47,5 +47,5 @@ export class Group extends Model<Group, GroupCreationAttrs> {
   permission: Array<PermissionsENUM>;
 
   @BelongsToMany(() => User, () => UserGroups)
-  users: User[];
+  users: [User];
 }

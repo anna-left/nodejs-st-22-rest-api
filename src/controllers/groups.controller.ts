@@ -13,7 +13,6 @@ import { GroupsService } from '../services/groups.service';
 import { CreateGroupDto } from '../data-access/groups/create-group.dto';
 import { Group } from '../models/groups.model';
 import { UpdateGroupDto } from '../data-access/groups/update-group.dto';
-import { handleResponse } from 'src/controllers/handle-response';
 import { AddUsersToGroupDto } from 'src/data-access/add-users-to-group.dto';
 
 @ApiTags('Groups')
@@ -26,8 +25,7 @@ export class GroupsController {
   @ApiBody({ type: CreateGroupDto })
   @Post()
   async create(@Body() createGroupDto: CreateGroupDto) {
-    const answer = await this.groupsService.createGroup(createGroupDto);
-    return handleResponse(answer);
+    return await this.groupsService.createGroup(createGroupDto);
   }
 
   @ApiOperation({ summary: 'Get all groups' })
@@ -41,8 +39,7 @@ export class GroupsController {
   @ApiResponse({ status: 200, type: Group })
   @Get(':id')
   async findOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const answer = await this.groupsService.findOne(id);
-    return handleResponse(answer);
+    return await this.groupsService.findOne(id);
   }
 
   @ApiOperation({ summary: 'Update group' })
@@ -52,16 +49,14 @@ export class GroupsController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateGroupDto: UpdateGroupDto,
   ) {
-    const answer = await this.groupsService.update(id, updateGroupDto);
-    return handleResponse(answer);
+    return await this.groupsService.update(id, updateGroupDto);
   }
 
   @ApiOperation({ summary: 'Remove group' })
   @ApiResponse({ status: 204 })
   @Delete(':id')
   async remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const answer = await this.groupsService.remove(id);
-    return handleResponse(answer);
+    return await this.groupsService.remove(id);
   }
 
   @ApiOperation({ summary: 'Add users to group' })
@@ -71,10 +66,6 @@ export class GroupsController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() addUsersToGroupDto: AddUsersToGroupDto,
   ) {
-    const answer = await this.groupsService.addUsersToGroup(
-      id,
-      addUsersToGroupDto,
-    );
-    return handleResponse(answer);
+    return await this.groupsService.addUsersToGroup(id, addUsersToGroupDto);
   }
 }
