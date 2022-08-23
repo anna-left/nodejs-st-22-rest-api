@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "create user",
+			"name": "AUTH registration",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -19,7 +19,81 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"login\": \"John Doe\",\r\n  \"password\": \"secret123\",\r\n  \"age\": 26,\r\n  \"isDeleted\": false\r\n}",
+					"raw": "{\r\n  \"login\": \"John Doe\",\r\n  \"password\": \"secret123\",\r\n  \"age\": 26\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auth/registration",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AUTH login",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"login\": \"ArkadiiDobkin\",\r\n  \"password\": \"EPAM1993\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER create user",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6IjEyMzRKb2huIERvZSIsImlkIjoiNjM0YjczODktMzM5Zi00MzQ1LWI3NDItNTgyZTZiOWRjNzE2IiwiZ3JvdXBzIjpbIjAwM2QxMWEyLTExNGMtNGMzZC1hZjNjLTE5ZjhjMTkyOTU5MyJdLCJpYXQiOjE2NjA0MDE0OTAsImV4cCI6MTY2MDQ4Nzg5MH0.X0-LfZMsr1FKzgZaPgmao1_4DBnlcjOPuZpfZoCRBkY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"login\": \"John Doe\",\r\n  \"password\": \"Microsoft1975\",\r\n  \"age\": 26\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,7 +115,7 @@
 			"response": []
 		},
 		{
-			"name": "findAll users",
+			"name": "USER findAll users",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true,
 				"disabledSystemHeaders": {}
@@ -51,7 +125,13 @@
 					"type": "noauth"
 				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6IkFya2FkaWlEb2JraW4iLCJpZCI6IjliNDc1OTQzLWJmNmMtNDJhYi1iNjg5LTc2ZjBlOTE4MDJiMyIsImlhdCI6MTY2MDg0ODY4MywiZXhwIjoxNjYwOTM1MDgzfQ.cLb6smOgiRiFupXBkxVn7CQL8x5ywplXvzCAe1MhOM4",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -62,7 +142,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/v1/users?limit=5",
+					"raw": "localhost:3000/v1/users",
 					"host": [
 						"localhost"
 					],
@@ -74,12 +154,13 @@
 					"query": [
 						{
 							"key": "loginSubstring",
-							"value": "arkadii",
+							"value": "John 1",
 							"disabled": true
 						},
 						{
 							"key": "limit",
-							"value": "5"
+							"value": "5",
+							"disabled": true
 						}
 					]
 				}
@@ -87,7 +168,7 @@
 			"response": []
 		},
 		{
-			"name": "findOne user",
+			"name": "USER findOne user",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true,
 				"disabledSystemHeaders": {}
@@ -97,13 +178,19 @@
 					"type": "noauth"
 				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6IkFya2FkaWlEb2JraW4iLCJpZCI6IjliNDc1OTQzLWJmNmMtNDJhYi1iNjg5LTc2ZjBlOTE4MDJiMyIsImlhdCI6MTY2MDg0ODY4MywiZXhwIjoxNjYwOTM1MDgzfQ.cLb6smOgiRiFupXBkxVn7CQL8x5ywplXvzCAe1MhOM4",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/v1/users/539d1650-abf2-490c-af4a-f5c147acbd3e",
+					"raw": "localhost:3000/v1/users/9b475943-bf6c-42ab-b689-76f0e91802b3",
 					"host": [
 						"localhost"
 					],
@@ -111,14 +198,14 @@
 					"path": [
 						"v1",
 						"users",
-						"539d1650-abf2-490c-af4a-f5c147acbd3e"
+						"9b475943-bf6c-42ab-b689-76f0e91802b3"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "update user",
+			"name": "USER update user",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -153,7 +240,7 @@
 			"response": []
 		},
 		{
-			"name": "remove user",
+			"name": "USER remove user",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -183,7 +270,7 @@
 			"response": []
 		},
 		{
-			"name": "create group",
+			"name": "GROUP create group",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -217,7 +304,7 @@
 			"response": []
 		},
 		{
-			"name": "findAll groups",
+			"name": "GROUP findAll groups",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true,
 				"disabledSystemHeaders": {}
@@ -252,7 +339,7 @@
 			"response": []
 		},
 		{
-			"name": "findOne group",
+			"name": "GROUP findOne group",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true,
 				"disabledSystemHeaders": {}
@@ -283,7 +370,7 @@
 			"response": []
 		},
 		{
-			"name": "update groups",
+			"name": "GROUP update groups",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -318,7 +405,7 @@
 			"response": []
 		},
 		{
-			"name": "remove group",
+			"name": "GROUP remove group",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -348,7 +435,7 @@
 			"response": []
 		},
 		{
-			"name": "add users to group",
+			"name": "GROUP add users to group",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},

@@ -46,6 +46,10 @@ You can use Postman collection for sending requests
 CRUD.postman_collection.json
 ```
 
+You can use index.html for testing CORS
+```
+src\test-cors\index.html
+```
 ## Author
 
 👤 **Anna Rybakova**
