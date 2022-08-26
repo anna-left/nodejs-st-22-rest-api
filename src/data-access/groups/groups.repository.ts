@@ -4,7 +4,7 @@ import { Sequelize } from 'sequelize-typescript';
 
 import { Group } from '../../models/groups.model';
 import { CreateGroupDto } from './create-group.dto';
-import { User } from 'src/models/users.model';
+import { User } from '../../models/users.model';
 import { Transaction } from 'sequelize';
 
 @Injectable()

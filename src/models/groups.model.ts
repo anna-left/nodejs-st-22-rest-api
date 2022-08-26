@@ -7,9 +7,10 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { PermissionsENUM } from 'src/utils/constants';
-import { User } from 'src/models/users.model';
-import { UserGroups } from 'src/models/user-groups.model';
+
+import { PermissionsENUM } from '../utils/constants';
+import { User } from '../models/users.model';
+import { UserGroups } from '../models/user-groups.model';
 
 interface GroupCreationAttrs {
   name: string;

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsArray, IsNotEmpty, IsEnum } from 'class-validator';
-import { PermissionsENUM, permissionsTypes } from 'src/utils/constants';
+import { PermissionsENUM, permissionsTypes } from '../../utils/constants';
 
 export class CreateGroupDto {
   @ApiProperty({ example: 'Admins', description: 'group name' })

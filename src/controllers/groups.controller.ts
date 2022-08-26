@@ -13,7 +13,7 @@ import { GroupsService } from '../services/groups.service';
 import { CreateGroupDto } from '../data-access/groups/create-group.dto';
 import { Group } from '../models/groups.model';
 import { UpdateGroupDto } from '../data-access/groups/update-group.dto';
-import { AddUsersToGroupDto } from 'src/data-access/add-users-to-group.dto';
+import { AddUsersToGroupDto } from '../data-access/add-users-to-group.dto';
 
 @ApiTags('Groups')
 @Controller('v1/groups')

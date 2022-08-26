@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
-import { Group } from 'src/models/groups.model';
 
+import { Group } from '../../models/groups.model';
 import { User } from '../../models/users.model';
 import { CreateUserDto } from './create-user.dto';
 

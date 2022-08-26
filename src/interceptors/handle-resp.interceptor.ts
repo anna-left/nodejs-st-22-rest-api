@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { winstonLogger } from 'src/middlewares/logger';
+import { winstonLogger } from '../middlewares/logger';
 import { HTTP_RESPONSE_MESSAGES } from '../utils/constants';
 
 export interface Response<T> {
